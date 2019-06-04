@@ -1,9 +1,10 @@
 import React from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import GlobalStyles from '../Helpers/GlobalStyles';
+import AccountPlaceHolder from '../Helpers/PlaceHolders/Accounts.js'
 
 export class Accounts extends React.Component {
   render() {
@@ -14,17 +15,20 @@ export class Accounts extends React.Component {
               <Text  style={GlobalStyles.TopTextTitle}>Mes comptes</Text>
           </View>
           <View style={GlobalStyles.container}>
-              <View style={styles.BoxAccount}> 
-                  <View> 
-                      <Text style={styles.AccountTitle}>Nom du compte</Text>
-                  </View>
-                  <View>
-                      <Text>Compte épargne</Text>
-                  </View>
-                  <View style={styles.AccountAmount}>
-                      <Text style={styles.AccountAmount}>100 €</Text>
-                  </View>
-              </View>
+            <FlatList data={AccountPlaceHolder}
+            renderItem={({item}) => <View style={styles.BoxAccount}> 
+            <View> 
+                <Text style={styles.AccountTitle}>{item.name}</Text>
+            </View>
+            <View>
+                <Text>{item.type}</Text>
+            </View>
+            <View style={styles.AccountAmount}>
+                <Text style={styles.AccountAmount}>{item.amount}</Text>
+            </View>
+        </View>
+              } />
+
           </View>
       </SafeAreaView>
     );
