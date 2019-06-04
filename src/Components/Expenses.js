@@ -21,7 +21,7 @@ export class Expenses extends React.Component {
             renderItem={({item}) => 
             <View style={styles.boxAccountExpenses}> 
               <View>
-                <View style={{marginBottom : 30}}>
+                <View style={styles.boxAccountName}>
                   <Text style={styles.accountName}>{item.accountName}</Text>
                 </View>
                 <FlatList data={ExpensesAccount1PlaceHolder}
@@ -69,7 +69,9 @@ const styles = StyleSheet.create({
   accountName : {
     fontSize : 28,
     fontWeight : "bold",
-    textAlign : "center"
+    textAlign : "center",
+    marginLeft : 60,
+    marginRight : 60,
   },
   boxExpense : {
     flex : 1, marginLeft : 60, marginRight : 60
@@ -80,6 +82,6 @@ const styles = StyleSheet.create({
   expenseAmount : {
     fontStyle : "italic",
     textAlign : "right"
-  }
-
+  },
+  boxAccountName : {marginBottom : 30, borderColor : "white", borderWidth : 1}
 })
