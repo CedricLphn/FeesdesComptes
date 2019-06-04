@@ -1,59 +1,56 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, Text, View } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
+
+import GlobalStyles from '../Helpers/GlobalStyles';
 
 export class Accounts extends React.Component {
   render() {
     return (
-      <View style={styles.container}>
-          <View>
-              <Text>Mes comptes</Text>
+      <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
+      style={GlobalStyles.App}>
+          <View style={GlobalStyles.TopTitle}>
+              <Text  style={GlobalStyles.TopTextTitle}>Mes comptes</Text>
           </View>
-          <View>
-              <View> 
+          <View style={GlobalStyles.container}>
+              <View style={styles.BoxAccount}> 
                   <View> 
-                      <Text>Nom du compte</Text>
+                      <Text style={styles.AccountTitle}>Nom du compte</Text>
                   </View>
                   <View>
-                      <Text>Type</Text>
+                      <Text>Compte épargne</Text>
                   </View>
-                  <View>
-                      <Text>1.000.000 €</Text>
+                  <View style={styles.AccountAmount}>
+                      <Text style={styles.AccountAmount}>100 €</Text>
                   </View>
-              </View>
-              
-              
-              <View>
-              <View style={{flex:1, backgroundColor: '#f3f3f3'}}>
-        {/* Rest of the app comes ABOVE the action button component !*/}
-        <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
-            <Icon name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {}}>
-            <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#1abc9c' title="All Tasks" onPress={() => {}}>
-            <Icon name="md-done-all" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
-      </View>
               </View>
           </View>
-      </View>
+      </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
+  BoxAccount : {
+    backgroundColor : "#E5E5E5",
+    flexDirection : "column",
+    width: 354,
+    height: 120,
+    margin: 20,
+    padding: 5,
+    paddingBottom: 0,
+    paddingLeft: 0,
   },
-  actionButtonIcon: {
-    fontSize: 20,
-    height: 22,
-    color: 'white',
+  AccountTitle: {
+    fontSize: 18
+  },
+  AccountAmount: {
+    fontSize: 30,
+    position: 'absolute',
+    bottom:0,
+    textAlign: "right",
+    alignSelf: 'flex-end',
+    paddingRight: 5
   }
-});
+})
