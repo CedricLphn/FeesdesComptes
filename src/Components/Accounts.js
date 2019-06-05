@@ -14,7 +14,7 @@ export class Accounts extends React.Component {
           <View style={GlobalStyles.TopTitle}>
               <Text  style={GlobalStyles.TopTextTitle}>Mes comptes</Text>
           </View>
-          <View style={GlobalStyles.container}>
+          <View style={[GlobalStyles.container, {justifyContent: "center"}]}>
             <FlatList data={AccountPlaceHolder}
             renderItem={({item}) => <View style={styles.BoxAccount}> 
             <View> 
@@ -51,7 +51,6 @@ const styles = StyleSheet.create({
   BoxAccount : {
     backgroundColor : "#E5E5E5",
     flexDirection : "column",
-    width: 354,
     height: 120,
     margin: 20,
     padding: 5,

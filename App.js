@@ -6,7 +6,7 @@ import { Projects } from './src/Components/Projects';
 export default class App extends React.Component {
   render() {
     return (
-      <Projects />
+      <Accounts />
     );
   }
 }
