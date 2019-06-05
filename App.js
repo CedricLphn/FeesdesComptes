@@ -1,12 +1,11 @@
 import React from 'react';
-import { Accounts } from "./src/Components/Accounts";
-import { Expenses } from "./src/Components/Expenses";
-import { Projects } from './src/Components/Projects';
+import Navigation from './src/Components/Navigation/Navigation'
+
 
 export default class App extends React.Component {
   render() {
     return (
-      <Accounts />
-    );
+      <Navigation />
+    )
   }
 }
