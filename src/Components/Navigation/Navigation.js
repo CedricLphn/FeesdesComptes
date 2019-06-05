@@ -1,7 +1,7 @@
 import { createBottomTabNavigator, createAppContainer } from 'react-navigation';
-import {Accounts} from '../Accounts'
-import {Expenses} from '../Expenses'
-import {Projects} from '../Projects'
+import {Accounts} from '../Views/Accounts'
+import {Expenses} from '../Views/Expenses'
+import {Projects} from '../Views/Projects'
 
 const TabNavigator = createBottomTabNavigator({
     Accounts: { screen: Accounts,

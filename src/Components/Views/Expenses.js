@@ -3,10 +3,9 @@ import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import GlobalStyles from '../Helpers/Styles/GlobalStyles';
-import AccountPlaceHolder from '../Helpers/PlaceHolders/Accounts.js'
-import ExpensesAccountNamePlaceHolder from '../Helpers/PlaceHolders/Expenses'
-import ExpensesAccount1PlaceHolder from '../Helpers/PlaceHolders/Expenses.Account1'
+import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
+import ExpensesAccountNamePlaceHolder from '../../Helpers/PlaceHolders/Expenses'
+import ExpensesAccount1PlaceHolder from '../../Helpers/PlaceHolders/Expenses.Account1'
 
 export class Expenses extends React.Component {
   render() {
