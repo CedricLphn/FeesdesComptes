@@ -45,6 +45,46 @@ export default class SQL {
         //     tx.executeSql(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`);
         //   }); 
     }
+    update(tableName, column, filter) {
+
+        var size = 0;
+        var sizeFilter = 0;
+        let count = 0;
+        let countFilter = 0;
+        let filters;
+        let setters;
+
+
+        for(let item in column) {
+            if (column.hasOwnProperty(item)) size++;
+        }
+
+        for(let item in column) {
+            count++;
+            if(count === size) {
+                setters += item+'='+column[item];
+                
+            }else {
+                setters += item+'='+column[item]+','
+            }
+        }
+
+        for(let item in filter)
+        {
+            if (filter.hasOwnProperty(item)) sizeFilter++;
+        }
+
+        for(let item in filter) {
+            countFilter++;
+            if(countFilter === sizeFilter) {
+                filters += item;
+            }else {
+                filters += item + ' AND ';
+            }
+        }
+
+        console.log(`UPDATE ${tableName} SET ${setters} WHERE (${filters})`)
+    }
 
 
 

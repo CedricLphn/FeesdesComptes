@@ -9,11 +9,16 @@ const sql = new SQL();
 export default class App extends React.Component {
 
   componentDidMount() {
-    sql.insert("account", {
+    sql.update("account", {
       id : 1,
       name : "toto",
       amount: 100
-    });
+    },
+    {
+      "id" : 1,
+      name : "pikachu"
+    }
+    );
   }
 
   render() {
