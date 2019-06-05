@@ -3,8 +3,8 @@ import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import GlobalStyles from '../Helpers/Styles/GlobalStyles';
-import ProjectsPlaceHolder from '../Helpers/PlaceHolders/Projects.js'
+import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
+import ProjectsPlaceHolder from '../../Helpers/PlaceHolders/Projects.js'
 
 
 export class Projects extends React.Component {

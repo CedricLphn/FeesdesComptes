@@ -3,8 +3,8 @@ import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
-import GlobalStyles from '../Helpers/Styles/GlobalStyles';
-import AccountPlaceHolder from '../Helpers/PlaceHolders/Accounts.js'
+import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
+import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
 
 export class Accounts extends React.Component {
   render() {
