@@ -77,15 +77,32 @@ export default class SQL {
         for(let item in filter) {
             countFilter++;
             if(countFilter === sizeFilter) {
-                filters += item;
+                filters += item+'='+filter[item];
             }else {
-                filters += item + ' AND ';
+                filters += item+'='+filter[item] + ' AND ';
             }
         }
-
-        console.log(`UPDATE ${tableName} SET ${setters} WHERE (${filters})`)
+        console.log(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`)
     }
+    delete(tableName, filter) {
 
+        var sizeFilter = 0;
+        let countFilter = 0;
+        let filters;
 
+        for(let item in filter)
+        {
+            if (filter.hasOwnProperty(item)) sizeFilter++;
+        }
 
+        for(let item in filter) {
+            countFilter++;
+            if(countFilter === sizeFilter) {
+                filters += item+'='+filter[item];
+            }else {
+                filters += item+'='+filter[item] + ' AND ';
+            }
+        }
+        console.log(`DELETE ${tableName} WHERE ${filters}`)
+    }
 }
