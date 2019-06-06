@@ -9,10 +9,9 @@ const sql = new SQL();
 export default class App extends React.Component {
 
   componentDidMount() {
-    sql.insert("account", {
-      id : 1,
-      name : "toto",
-      amount: 100
+    sql.delete("account", {
+      id: 1,
+      name: 'toto'
     });
   }
 
