@@ -1,10 +1,11 @@
-import { Constants, SQLite } from 'expo';
+import { SQLite } from 'expo';
 
 const db = SQLite.openDatabase("database.db");
 
 export default class SQL {
     createTable(name, query) {
         return db.transaction(tx => {
+            console.log(`CREATE TABLE IF NOT EXISTS ${name} (${query})`);
             tx.executeSql(`CREATE TABLE IF NOT EXISTS ${name} (${query})`);
           });
     }
@@ -13,6 +14,35 @@ export default class SQL {
         return db.transaction(tx => {
             tx.executeSql(query);
           });    
+    }
+
+    transaction(transaction) {
+        return db.transaction(transaction);    
+    }
+
+    async select(tableName, filter) {
+        if(filter === undefined || filter === null) {
+            filter = "*";
+        }else if(Array.isArray(filter)) {
+            filter = filter.join(',');
+        }
+
+        console.log(`select ${filter} from ${tableName}`);
+
+        return new Promise(await function (resolve, reject)  {
+            db.transaction(
+                tx => {
+                  tx.executeSql(`select ${filter} from ${tableName}`, [], (_, { rows }) => {
+                      console.log("sql class: " + JSON.stringify(rows));
+                      return resolve(JSON.stringify(rows));
+                  }
+                  );
+                }
+              );
+    
+              return reject();
+        })
+
     }
 
     insert(tableName, column) {
@@ -49,8 +79,8 @@ export default class SQL {
         var sizeFilter = 0;
         let count = 0;
         let countFilter = 0;
-        let filters;
-        let setters;
+        let filters = "";
+        let setters = "";
 
 
         for(let item in column) {
@@ -88,7 +118,7 @@ export default class SQL {
 
         var sizeFilter = 0;
         let countFilter = 0;
-        let filters;
+        let filters = "";
 
         for(let item in filter)
         {

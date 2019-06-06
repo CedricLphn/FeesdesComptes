@@ -6,8 +6,29 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
 
+import SQL from '../../Helpers/API/sql';
+
+const sql = new SQL();
+
+
 export class Accounts extends React.Component {
+
+  componentDidMount() {
+    console.log(sql.createTable("accounts", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
+
+  }
+
   render() {
+    var data = [];
+    sql.transaction(
+      tx => {
+        tx.executeSql('select * from accounts', [], (_, { rows }) => {
+          data = JSON.stringify(rows);
+
+        }
+        );
+      }
+  );
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
@@ -15,7 +36,7 @@ export class Accounts extends React.Component {
               <Text  style={GlobalStyles.TopTextTitle}>Mes comptes</Text>
           </View>
           <View style={GlobalStyles.container}>
-            <FlatList data={AccountPlaceHolder}
+            <FlatList data={data}
             renderItem={({item}) => <View style={styles.BoxAccount}> 
             <View> 
                 <Text style={styles.AccountTitle}>{item.name}</Text>
