@@ -41,9 +41,7 @@ export default class SQL {
 
         console.log(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`)
 
-        // return db.transaction(tx => {
-        //     tx.executeSql(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`);
-        //   }); 
+        return this.query(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`);
     }
     update(tableName, column, filter) {
 
@@ -83,6 +81,8 @@ export default class SQL {
             }
         }
         console.log(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`)
+
+        return this.query(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`); 
     }
     delete(tableName, filter) {
 
@@ -103,6 +103,9 @@ export default class SQL {
                 filters += item+'='+filter[item] + ' AND ';
             }
         }
-        console.log(`DELETE ${tableName} WHERE ${filters}`)
+        console.log(`DELETE ${tableName} WHERE ${filters}`);
+
+        return this.query(`DELETE ${tableName} WHERE ${filters}`); 
+
     }
 }
