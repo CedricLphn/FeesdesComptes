@@ -19,7 +19,8 @@ export default StyleSheet.create({
       },
       TopTextTitle : {
           color: "white",
-          fontSize: 20
+          fontSize: 20,
+          textTransform : 'uppercase'
       },
       container : {
           flex: 1

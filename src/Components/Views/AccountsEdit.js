@@ -20,7 +20,7 @@ export class AccountsEdit extends React.Component {
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
           <View style={GlobalStyles.TopTitle}>
-              <Text  style={GlobalStyles.TopTextTitle}>Mes comptes</Text>
+              <Text  style={GlobalStyles.TopTextTitle}>édition de comptes</Text>
           </View>
           <View style={GlobalStyles.container}>
               <View>
@@ -105,7 +105,8 @@ export class AccountsEdit extends React.Component {
                           style={{height: 40, borderColor: 'gray', borderBottomWidth: 1}}
                           // onChangeText={(text) => this.setState({text})}
                           // value={this.state.text}
-                          
+                          placeholder={'ex : Société générale'}
+
                         />
                       </View>
                       <View style={{flex: 3, marginLeft : 40}}>
@@ -127,16 +128,17 @@ export class AccountsEdit extends React.Component {
                     </View>
               } />
               </View>
-              <View style={{marginTop : 70}}>
-                <Button
-                    onPress={console.log()}
-                    title="Confirmer les modifications"
-                    color="#cc0001"
-                    accessibilityLabel="Learn more about this purple button"
-                  />
-              </View>
+          
               
           </View>
+          <View style={{}}>
+                <Button
+                  onPress={console.log()}
+                  title="Confirmer les modifications"
+                  color="#cc0001"
+                  accessibilityLabel="Learn more about this purple button"
+                />
+              </View>
         {/* Rest of the app comes ABOVE the action button component !*/}
       </SafeAreaView>
     );
