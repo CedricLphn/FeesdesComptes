@@ -19,26 +19,23 @@ export class Accounts extends React.Component {
       data : []
     }
   }
-
   componentDidMount() {
     console.log(sql.createTable("accounts", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
-
     sql.transaction(
       tx => {
         tx.executeSql('select * from accounts', [], (_, { rows }) => {
-
-          this.setState({
-            data: JSON.stringify(rows)
+          console.log(rows._array);
+          this.setState({ 
+            data : rows._array
           })
+
         }
         );
       }
-  );
-
+    );
   }
 
   render() {
-
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
@@ -46,7 +43,7 @@ export class Accounts extends React.Component {
               <Text  style={GlobalStyles.TopTextTitle}>Mes comptes</Text>
           </View>
           <View style={GlobalStyles.container}>
-            <FlatList data={data}
+            <FlatList data={this.state.data}
             renderItem={({item}) => <View style={styles.BoxAccount}> 
             <View> 
                 <Text style={styles.AccountTitle}>{item.name}</Text>
