@@ -13,22 +13,32 @@ const sql = new SQL();
 
 export class Accounts extends React.Component {
 
+  constructor(props) {
+    super(props);
+    this.state = {
+      data : []
+    }
+  }
+
   componentDidMount() {
     console.log(sql.createTable("accounts", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
 
-  }
-
-  render() {
-    var data = [];
     sql.transaction(
       tx => {
         tx.executeSql('select * from accounts', [], (_, { rows }) => {
-          data = JSON.stringify(rows);
 
+          this.setState({
+            data: JSON.stringify(rows)
+          })
         }
         );
       }
   );
+
+  }
+
+  render() {
+
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
