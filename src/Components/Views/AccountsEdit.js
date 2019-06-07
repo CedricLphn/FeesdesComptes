@@ -23,41 +23,50 @@ export class AccountsEdit extends React.Component {
               <Text  style={GlobalStyles.TopTextTitle}>Mes comptes</Text>
           </View>
           <View style={GlobalStyles.container}>
+            <View>
+             <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20, marginTop : 30}}>Ajouter un compte</Text>
+              </View>
               <View>
-                  <Text>Nom du compte</Text>
+                  <Text style={styles.titles}>Nom du compte</Text>
                   <TextInput
-                          style={{height: 40, borderColor: 'gray', borderBottomWidth: 1}}
+                          style={styles.inputs}
                           // onChangeText={(text) => this.setState({text})}
                           // value={this.state.text}
                           placeholder={'ex : Société Générale'}
                         />
 
               </View>
-              <View>
-                  <Text>Type de compte</Text>
-                  <RadioForm
-                    radio_props={accountType}
-                    formHorizontal={false}
-                    animation={true}
-                    initial={1}
-                    onPress={(value) => {}}
-                />
-
+              <View style={{alignItems : 'center'}}>
+                  <Text style={styles.titles}>Type de compte</Text>
+                  <View style={{width : '25%'}}>
+                    <RadioForm
+                        radio_props={accountType}
+                        formHorizontal={false}
+                        animation={true}
+                        initial={1}
+                        onPress={(value) => {}}
+                    />
+                  </View>
               </View>
               <View>
-                  <Text>Montant</Text>
+                  <Text style={styles.titles}>Montant</Text>
                   <TextInput
-                          style={{height: 40, borderColor: 'gray', borderBottomWidth: 1}}
+                          style={styles.inputs}
                           // onChangeText={(text) => this.setState({text})}
                           // value={this.state.text}
                           placeholder={'ex : 1500.00'}
                         />
 
               </View>
- 
-         
-
-       
+              <View style={{alignItems : 'center'}}>
+                <View style={{backgroundColor : '#00897B', borderRadius : 10 , width : '30%', padding : 10}}>
+                    <Button
+                        onPress={console.log()}
+                        title="Valider"
+                        color="white"
+                    />
+                </View>
+              </View>
           </View>
         {/* Rest of the app comes ABOVE the action button component !*/}
       </SafeAreaView>
@@ -66,24 +75,6 @@ export class AccountsEdit extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  BoxAccount : {
-    backgroundColor : "#E5E5E5",
-    flexDirection : "column",
-    height: 120,
-    margin: 20,
-    padding: 10,
-    paddingBottom: 0,
-    paddingLeft: 0,
-  },
-  AccountTitle: {
-    fontSize: 18
-  },
-  AccountAmount: {
-    fontSize: 30,
-    position: 'absolute',
-    bottom:3,
-    textAlign: "right",
-    alignSelf: 'flex-end',
-    paddingRight: 10
-  }
+  titles : {textTransform : 'uppercase', textAlign : 'center'},
+  inputs : {margin : 20, height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'center'}
 })
