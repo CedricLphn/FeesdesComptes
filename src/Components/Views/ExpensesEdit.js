@@ -1,13 +1,8 @@
 import React from 'react';
 import { Platform, SafeAreaView, StyleSheet, Text, View, Picker , TextInput, Button, FlatList } from 'react-native';
-import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
-import ExpensesAccountNamePlaceHolder from '../../Helpers/PlaceHolders/Expenses'
-import ExpensesAccount1PlaceHolder from '../../Helpers/PlaceHolders/Expenses.Account1'
 import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
-
 
 export class ExpensesEdit extends React.Component {
   constructor(props) {
@@ -20,33 +15,25 @@ export class ExpensesEdit extends React.Component {
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
           <View style={GlobalStyles.TopTitle}>
-              <Text  style={GlobalStyles.TopTextTitle}>Ajouter de(s) charge(s)</Text>
+              <Text  style={GlobalStyles.TopTextTitle}>édition de charges</Text>
           </View>
           <View style={GlobalStyles.container}>
             <View style={{}}>
-              <View>
-                <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20, marginTop : 30}}>Choisir un compte</Text>
+              <View style={{marginTop: 50}}>
+              <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20}}>Choisir un compte</Text>
               </View>
               <View>
                 <Picker
                   // selectedValue={this.state.language}
-                  style={{height: 50, width: '100%', top : -65}}
+                  style={{height: 50, width: '100%', top : -40}}
                   // onValueChange={(itemValue, itemIndex) =>
                   //   this.setState({language: itemValue})}
                   >
                   
                 </Picker>
               </View>
-              <View>
-                <Text style={{textAlign : 'center', fontSize : 20, marginTop : 80, backgroundColor : '#01c851', color : 'white', padding : 10}}>Nouveau</Text>
-              </View>
-              <View style={{flexDirection : 'row', justifyContent : 'space-around', marginTop : 40, marginBottom : 20, marginTop : 60}}>
-                <View style={{flex : 1}}>
-                  <Text style={{textAlign : 'left', marginLeft : 40}}>Intitulé :</Text>
-                </View>
-                <View style={{flex : 1}}>
-                  <Text style={{textAlign : 'center'}}>Montant :</Text>
-                </View>
+              <View style={{marginTop: 90, marginBottom: 30}}>
+              <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20}}>Nouvelle charge</Text>
               </View>
               <View style={{flexDirection : 'row', marginBottom : 20}} >
                       <View style={{flex: 4, marginLeft : 40}}>
@@ -74,8 +61,8 @@ export class ExpensesEdit extends React.Component {
                         />
                       </View>
                     </View>
-              <View>
-                <Text style={{textAlign : 'center', fontSize : 20, marginTop : 50, textTransform : 'capitalize', backgroundColor : '#4385f5',  color : 'white', padding : 10}}>édition</Text>
+              <View style={{marginTop: 30}}>
+              <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20}}>Modifier des charges</Text>
               </View>
               <View style={{justifyContent : 'center', marginTop : 40}}>
               <FlatList data={AccountPlaceHolder}
@@ -86,7 +73,7 @@ export class ExpensesEdit extends React.Component {
                           style={{height: 40, borderColor: 'gray', borderBottomWidth: 1}}
                           // onChangeText={(text) => this.setState({text})}
                           // value={this.state.text}
-                          
+                          placeholder={'ex : loyer'}
                         />
                       </View>
                       <View style={{flex: 3, marginLeft : 40}}>
@@ -108,7 +95,11 @@ export class ExpensesEdit extends React.Component {
                     </View>
               } />
               </View>
-              <View style={{marginTop : 50}}>
+           
+
+            </View>
+          </View>
+          <View style={{}}>
                 <Button
                   onPress={console.log()}
                   title="Confirmer les modifications"
@@ -116,9 +107,6 @@ export class ExpensesEdit extends React.Component {
                   accessibilityLabel="Learn more about this purple button"
                 />
               </View>
-
-            </View>
-          </View>
         {/* Rest of the app comes ABOVE the action button component !*/}
       </SafeAreaView>
     );
