@@ -20,19 +20,12 @@ export class AccountsEdit extends React.Component {
 
   constructor(props) {
     super(props);
-    this.state = {
-      selectedIndex: 0
-    };
+
   }
 
-  handleIndexChange = index => {
-    this.setState({
-      ...this.state,
-      selectedIndex: index
-    });
-  };
-
   render() {
+
+    const { navigation } = this.props;
 
     return(
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
@@ -41,7 +34,7 @@ export class AccountsEdit extends React.Component {
               <Text style={GlobalStyles.TopTextTitle}>Ajouter // Modifier un compte</Text>
           </View>
           <View style={GlobalStyles.container}>
-              <AccountForm id={1} />
+              <AccountForm id={navigation.getParam('id', 0)} />
           </View>
       </SafeAreaView>
     );

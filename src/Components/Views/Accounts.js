@@ -40,14 +40,15 @@ export class Accounts extends React.Component {
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
-          <View style={GlobalStyles.TopTitle}>
-              <Text  style={GlobalStyles.TopTextTitle}>Mes comptes</Text>
-          </View>
           <View style={GlobalStyles.container}>
             <FlatList data={this.state.data}
-            renderItem={({item}) => <View style={styles.BoxAccount}> 
+            renderItem={({item}) => <View style={styles.BoxAccount} > 
             <View> 
-                <Text style={styles.AccountTitle}>{item.name}</Text>
+                <Text style={styles.AccountTitle} onPress={() => {
+              this.props.navigation.navigate("Settings", {
+                id : item.id
+              })
+            }}>{item.name}</Text>
             </View>
             <View>
                 <Text>{item.type}</Text>
@@ -58,11 +59,7 @@ export class Accounts extends React.Component {
         </View>
               } />
 
-        <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => <AccountsEdit />}>
-            <Icon name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
+        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate("Settings")} > </ActionButton>
           </View>
         {/* Rest of the app comes ABOVE the action button component !*/}
       </SafeAreaView>
