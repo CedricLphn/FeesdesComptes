@@ -18,16 +18,15 @@ export class AccountsEdit extends React.Component {
 
   constructor(props) {
     super(props);
-    
     this.state = {
-      accountSelect : 0
-    }
+      selectedIndex: 0
+    };
   }
 
   handleIndexChange = index => {
     this.setState({
       ...this.state,
-      accountSelect: index
+      selectedIndex: index
     });
   };
 
@@ -51,6 +50,11 @@ export class AccountsEdit extends React.Component {
                         animation={true}
                         initial={0}
                         onPress={(value) => {}}
+                    />
+                    <SegmentedControlTab
+                      values={["Courant", "Epargne"]}
+                      selectedIndex={this.state.selectedIndex}
+                      onTabPress={this.handleIndexChange}
                     />
                   </View>
               </View>
@@ -91,21 +95,6 @@ export class AccountsEdit extends React.Component {
               </View>
               <View>
                  <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20, marginTop : 30, marginBottom : 30}}>Modifier un compte</Text>
-                  <Text>Type de compte</Text>
-                  <RadioForm
-                    radio_props={accountType}
-                    formHorizontal={false}
-                    animation={true}
-                    initial={1}
-                    onPress={(value) => {}}
-                />
-
-                <SegmentedControlTab
-                  values={["Courant", "Epargne"]}
-                  selectedIndex={this.state.accountSelect}
-                  onTabPress={this.handleIndexChange}
-                />
-
               </View>
               <View style={{marginBottom: 30}}>
                 <Picker
