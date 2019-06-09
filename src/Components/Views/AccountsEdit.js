@@ -7,12 +7,29 @@ import Icon from 'react-native-vector-icons/Ionicons';
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
 
+import SegmentedControlTab from "react-native-segmented-control-tab";
+
 var accountType = [
     {label : 'courant', value : 1},
     {label : 'épargne', value : 2}
 ]
 
 export class AccountsEdit extends React.Component {
+
+  constructor(props) {
+    super(props);
+    
+    this.state = {
+      accountSelect : 0
+    }
+  }
+
+  handleIndexChange = index => {
+    this.setState({
+      ...this.state,
+      accountSelect: index
+    });
+  };
 
   render() {
       
@@ -41,6 +58,12 @@ export class AccountsEdit extends React.Component {
                     animation={true}
                     initial={1}
                     onPress={(value) => {}}
+                />
+
+                <SegmentedControlTab
+                  values={["Courant", "Epargne"]}
+                  selectedIndex={this.state.accountSelect}
+                  onTabPress={this.handleIndexChange}
                 />
 
               </View>
