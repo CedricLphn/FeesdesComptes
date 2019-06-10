@@ -1,6 +1,5 @@
 import React from 'react';
-import { } from 'react-native';
-import { Platform, SafeAreaView, Text, View, StyleSheet, TextInput, Button } from 'react-native';
+import { Alert, Platform, SafeAreaView, Text, View, StyleSheet, TextInput, Button } from 'react-native';
 
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
@@ -65,12 +64,6 @@ export class AccountsEdit extends React.Component {
     }
   }
 
-  handleIndexChange = index => {
-    this.setState({
-      ...this.state,
-      selectedIndex: index
-    });
-  };
 
   handleIndexChange = index => {
     this.setState({
@@ -112,7 +105,7 @@ export class AccountsEdit extends React.Component {
     const { state } = navigation;
   
     return {
-      title: `${state.params && state.params.title ? state.params.title : 'Ajouter un compte'}`,
+      title: (state.params && state.params.title ? state.params.title : 'Ajouter un compte')
     };
   };
 
@@ -167,6 +160,29 @@ export class AccountsEdit extends React.Component {
                     title={button}
                     color="#00897B"
                     onPress={() => this.Transaction()}
+                    />
+                    <Button
+                      title="Supprimer ce compte"
+                      color="red"
+                      onPress={() => {
+                        Alert.alert(
+                          'Alert Title',
+                          'My Alert Msg',
+                          [
+                            {
+                              text: 'Non',
+                              style: 'cancel',
+                            },
+                            {text: 'Oui', onPress: () => {
+                              sql.delete("accounts", {
+                                id: this.state.data.id
+                              });
+                              this.props.navigation.navigate("Accounts", { updated: true});
+                            }},
+                          ],
+                          {cancelable: false},
+                        );
+                      }}
                     />
                 </View>
             </View>

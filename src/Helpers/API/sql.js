@@ -133,9 +133,9 @@ export default class SQL {
                 filters += item+'='+filter[item] + ' AND ';
             }
         }
-        console.log(`DELETE ${tableName} WHERE ${filters}`);
+        console.log(`DELETE FROM ${tableName} WHERE ${filters}`);
 
-        return this.query(`DELETE ${tableName} WHERE ${filters}`); 
+        return this.query(`DELETE FROM ${tableName} WHERE ${filters}`); 
 
     }
 }
