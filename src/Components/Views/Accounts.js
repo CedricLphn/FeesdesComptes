@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
+import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AccountsEdit from '../Views/AccountsEdit';
@@ -8,6 +8,7 @@ import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
 
 import SQL from '../../Helpers/API/sql';
+import Loading from '../Loading';
 
 const sql = new SQL();
 
@@ -17,7 +18,8 @@ export class Accounts extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      data : []
+      data : [],
+      loading : true
     }
   }
   componentDidMount() {
@@ -27,7 +29,9 @@ export class Accounts extends React.Component {
         tx.executeSql('select * from accounts', [], (_, { rows }) => {
           console.log(rows._array);
           this.setState({ 
-            data : rows._array
+            data : rows._array,
+            length : rows.length,
+            loading : false,
           })
 
         }
@@ -41,23 +45,31 @@ export class Accounts extends React.Component {
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
           <View style={GlobalStyles.container}>
+            <Loading loading={this.state.loading} />
+            {(this.state.length > 0) && (this.state.loading == false) ? ( 
             <FlatList data={this.state.data}
-            renderItem={({item}) => <View style={styles.BoxAccount} > 
-            <View> 
-                <Text style={styles.AccountTitle} onPress={() => {
+              keyExtractor = {(item) => item.id.toString()}
+              renderItem={({item}) => <TouchableOpacity style={styles.BoxAccount}  onPress={() => {
               this.props.navigation.navigate("Settings", {
                 id : item.id
               })
-            }}>{item.name}</Text>
+            }}> 
+            <View> 
+                <Text style={styles.AccountTitle}>{item.name}</Text>
             </View>
             <View>
-                <Text>{item.type}</Text>
+                <Text>{(item.type == 0) ? "Compte épargne": "Compte Courant"}</Text>
             </View>
             <View style={styles.AccountAmount}>
                 <Text style={styles.AccountAmount}>{item.amount} €</Text>
             </View>
-        </View>
+        </TouchableOpacity>
               } />
+            ) : (
+              <View style={styles.centering}>
+                <Text>Il n'y a aucun compte, pourquoi pas en ajouter un ?</Text>
+              </View>
+    )}
 
         <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate("Settings")} > </ActionButton>
           </View>
@@ -87,5 +99,10 @@ const styles = StyleSheet.create({
     textAlign: "right",
     alignSelf: 'flex-end',
     paddingRight: 10
+  },
+  centering: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center"
   }
 })
