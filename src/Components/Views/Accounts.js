@@ -23,6 +23,18 @@ export class Accounts extends React.Component {
     }
   }
   componentDidMount() {
+    this.refresh();
+  }
+
+  componentWillReceiveProps() {
+    this.setState({
+      ...this.state,
+      loading: true
+    })
+    this.refresh();
+  }
+
+  refresh() {
     console.log(sql.createTable("accounts", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
     sql.transaction(
       tx => {
@@ -51,7 +63,8 @@ export class Accounts extends React.Component {
               keyExtractor = {(item) => item.id.toString()}
               renderItem={({item}) => <TouchableOpacity style={styles.BoxAccount}  onPress={() => {
               this.props.navigation.navigate("Settings", {
-                id : item.id
+                id : item.id,
+                title: "Modifier un compte"
               })
             }}> 
             <View> 
@@ -71,7 +84,7 @@ export class Accounts extends React.Component {
               </View>
     )}
 
-        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate("Settings")} > </ActionButton>
+        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate("Settings")} />
           </View>
         {/* Rest of the app comes ABOVE the action button component !*/}
       </SafeAreaView>

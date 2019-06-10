@@ -7,8 +7,15 @@ import {AccountsEdit} from '../Views/AccountsEdit'
 const HomeStack = createStackNavigator(
     {
       //Defination of Navigaton from home screen
-      Accounts: { screen: Accounts },
-      Settings: { screen: AccountsEdit }
+      Accounts: { 
+        navigationOptions: () => ({
+          title: "Mes comptes",
+        }),
+        screen: Accounts 
+      },
+      Settings: { 
+        screen: AccountsEdit 
+      }
     },
     {
       //For React Navigation 2.+ change defaultNavigationOptions->navigationOptions
@@ -17,8 +24,7 @@ const HomeStack = createStackNavigator(
         headerStyle: {
           backgroundColor: '#00897B',
         },
-        headerTintColor: '#FFFFFF',
-        title: 'Home',
+        headerTintColor: '#FFFFFF'
         //Header title
       },
     }

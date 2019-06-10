@@ -90,10 +90,10 @@ export default class SQL {
         for(let item in column) {
             count++;
             if(count === size) {
-                setters += item+'='+column[item];
+                setters += item+"='"+column[item]+"'";
                 
             }else {
-                setters += item+'='+column[item]+','
+                setters += item+"='"+column[item]+"',"
             }
         }
 
@@ -105,9 +105,9 @@ export default class SQL {
         for(let item in filter) {
             countFilter++;
             if(countFilter === sizeFilter) {
-                filters += item+'='+filter[item];
+                filters += item+"='"+filter[item]+"'";
             }else {
-                filters += item+'='+filter[item] + ' AND ';
+                filters += item+"='"+filter[item] + "' AND ";
             }
         }
         console.log(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`)
