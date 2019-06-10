@@ -166,8 +166,8 @@ export class AccountsEdit extends React.Component {
                       color="red"
                       onPress={() => {
                         Alert.alert(
-                          'Alert Title',
-                          'My Alert Msg',
+                          'Confirmation',
+                          'Voulez-vous vraiment supprimer ce compte ?',
                           [
                             {
                               text: 'Non',
@@ -177,7 +177,7 @@ export class AccountsEdit extends React.Component {
                               sql.delete("accounts", {
                                 id: this.state.data.id
                               });
-                              this.props.navigation.navigate("Accounts", {updated: true});
+                              this.props.navigation.navigate("Accounts", { updated: true});
                             }},
                           ],
                           {cancelable: false},
