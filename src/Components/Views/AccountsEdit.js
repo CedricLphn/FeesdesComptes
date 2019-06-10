@@ -121,9 +121,9 @@ export class AccountsEdit extends React.Component {
                 <Loading loading={this.state.loading} />
              ) : (
             <View >
-                <View>
+                <View style={styles.boxes}>
                     <View  style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Text>Nom du compte: </Text>
+                    <Text>Nom du compte : </Text>
                     <TextInput
                             // value={this.state.text}
                             placeholder={'ex : Société générale'}
@@ -133,16 +133,16 @@ export class AccountsEdit extends React.Component {
                     </View>
                    
                 </View>
-                <View>
+                <View style={[{width: 300, alignSelf: 'center'},styles.boxes]}>
                     <SegmentedControlTab
                     values={["Compte Epargne", "Compte Courant"]}
                     selectedIndex={this.state.selectedIndex}
                     onTabPress={this.handleIndexChange}
                     />
                 </View>
-                <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                <View style={[{flexDirection: 'row'},styles.boxes]}>
                     <View>
-                    <Text>Montant du compte</Text>
+                    <Text>Montant du compte : </Text>
                     </View>
                     <View>
                     <TextInput
@@ -155,7 +155,7 @@ export class AccountsEdit extends React.Component {
                     />
                     </View>
                 </View>
-                <View style={{}}>
+                <View style={{marginTop: 20}}>
                     <Button
                     title={button}
                     color="#00897B"
@@ -177,7 +177,7 @@ export class AccountsEdit extends React.Component {
                               sql.delete("accounts", {
                                 id: this.state.data.id
                               });
-                              this.props.navigation.navigate("Accounts", { updated: true});
+                              this.props.navigation.navigate("Accounts", {updated: true});
                             }},
                           ],
                           {cancelable: false},
@@ -196,5 +196,6 @@ export class AccountsEdit extends React.Component {
 
 const styles = StyleSheet.create({
   titles : {textTransform : 'uppercase', textAlign : 'center'},
-  inputs : {margin : 20, height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'center'}
+  inputs : {margin : 20, height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'center'},
+  boxes : {height: 50, alignItems: 'center', justifyContent: 'center'}
 })
