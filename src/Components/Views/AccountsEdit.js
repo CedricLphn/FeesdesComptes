@@ -161,29 +161,35 @@ export class AccountsEdit extends React.Component {
                     color="#00897B"
                     onPress={() => this.Transaction()}
                     />
-                    <Button
-                      title="Supprimer ce compte"
-                      color="red"
-                      onPress={() => {
-                        Alert.alert(
-                          'Confirmation',
-                          'Voulez-vous vraiment supprimer ce compte ?',
-                          [
-                            {
-                              text: 'Non',
-                              style: 'cancel',
-                            },
-                            {text: 'Oui', onPress: () => {
-                              sql.delete("accounts", {
-                                id: this.state.data.id
-                              });
-                              this.props.navigation.navigate("Accounts", { updated: true});
-                            }},
-                          ],
-                          {cancelable: false},
-                        );
-                      }}
-                    />
+                    {(this.state.data.id != 0) ? ( 
+                      <View>
+                      <Button
+                        title="Supprimer ce compte"
+                        color="red"
+                        onPress={() => {
+                          Alert.alert(
+                            'Confirmation',
+                            'Voulez-vous vraiment supprimer ce compte ?',
+                            [
+                              {
+                                text: 'Non',
+                                style: 'cancel',
+                              },
+                              {text: 'Oui', onPress: () => {
+                                sql.delete("accounts", {
+                                  id: this.state.data.id
+                                });
+                                this.props.navigation.navigate("Accounts", { updated: true});
+                              }},
+                            ],
+                            {cancelable: false},
+                          );
+                        }}
+                      />
+                      </View>
+                    ): (
+                      false
+                    )}
                 </View>
             </View>
              )}

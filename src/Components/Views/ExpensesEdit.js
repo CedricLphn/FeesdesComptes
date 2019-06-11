@@ -14,9 +14,6 @@ export class ExpensesEdit extends React.Component {
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
-          <View style={GlobalStyles.TopTitle}>
-              <Text  style={GlobalStyles.TopTextTitle}>édition de charges</Text>
-          </View>
           <View style={GlobalStyles.container}>
             <View style={{}}>
               <View style={{marginTop: 50}}>

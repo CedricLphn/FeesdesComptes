@@ -12,9 +12,6 @@ export class Expenses extends React.Component {
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
-          <View style={GlobalStyles.TopTitle}>
-              <Text  style={GlobalStyles.TopTextTitle}>Mes charges</Text>
-          </View>
           <View style={GlobalStyles.container}>
             <FlatList data={ExpensesAccountNamePlaceHolder}
             renderItem={({item}) => 
@@ -38,17 +35,7 @@ export class Expenses extends React.Component {
             </View>
             } />
 
-        <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
-            <Icon name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {}}>
-            <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#1abc9c' title="All Tasks" onPress={() => {}}>
-            <Icon name="md-done-all" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
+        <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate('Settings')} />
           </View>
         {/* Rest of the app comes ABOVE the action button component !*/}
       </SafeAreaView>

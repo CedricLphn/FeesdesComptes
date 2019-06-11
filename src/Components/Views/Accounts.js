@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Image, Platform, SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AccountsEdit from '../Views/AccountsEdit';
@@ -80,6 +80,7 @@ export class Accounts extends React.Component {
               } />
             ) : (
               <View style={styles.centering}>
+                <Image source={require('../../../assets/empty.png')} />
                 <Text>Il n'y a aucun compte, pourquoi pas en ajouter un ?</Text>
               </View>
     )}
