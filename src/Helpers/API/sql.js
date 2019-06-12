@@ -3,6 +3,10 @@ import { SQLite } from 'expo';
 const db = SQLite.openDatabase("database.db");
 
 export default class SQL {
+    /**
+     * @param {String} name
+     * @param {String} query 
+     */
     createTable(name, query) {
         return db.transaction(tx => {
             console.log(`CREATE TABLE IF NOT EXISTS ${name} (${query})`);
