@@ -14,14 +14,21 @@ export default class SQL {
           });
     }
 
+    /**
+     *
+     * @param {String} query
+     */
     query(query) {
         return db.transaction(tx => {
             tx.executeSql(query);
           });    
     }
 
+    /**
+     * @param {Function} transaction
+     */
     transaction(transaction) {
-        return db.transaction(transaction);    
+        return db.transaction(transaction);
     }
 
     async select(tableName, filter) {

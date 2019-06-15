@@ -1,10 +1,8 @@
 import React from 'react';
 import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
-import ExpensesAccountNamePlaceHolder from '../../Helpers/PlaceHolders/Expenses'
 import ExpensesAccount1PlaceHolder from '../../Helpers/PlaceHolders/Expenses.Account1'
 
 import SQL from '../../Helpers/API/sql'
