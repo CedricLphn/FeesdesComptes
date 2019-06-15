@@ -50,7 +50,7 @@ export default class SQL {
                   );
                 }
               );
-    
+
               return reject();
         })
 
