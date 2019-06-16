@@ -1,70 +1,127 @@
 import React from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
+import {Platform, SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Image} from 'react-native';
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import ProjectsPlaceHolder from '../../Helpers/PlaceHolders/Projects.js'
 
+import SQL from '../../Helpers/API/sql';
+import Loading from '../Loading';
+
+const sql = new SQL();
 
 export class Projects extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data : [],
+            loading : true
+        }
+    }
+    componentDidMount() {
+        this.refresh();
+    }
+
+    componentWillReceiveProps() {
+        this.setState({
+            ...this.state,
+            loading: true
+        })
+        this.refresh();
+    }
+
+    refresh() {
+        console.log(sql.createTable("projects", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
+        sql.transaction(
+            tx => {
+                tx.executeSql('select * from accounts', [], (_, { rows }) => {
+                        console.log(rows._array);
+                        this.setState({
+                            data : rows._array,
+                            length : rows.length,
+                            loading : false,
+                        })
+
+                    }
+                );
+            }
+        );
+    }
+
   render() {
     return (
-      <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
+        <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
-          <View style={GlobalStyles.TopTitle}>
-              <Text h1 style={GlobalStyles.TopTextTitle}>Mes projets</Text>
-          </View>
           <View style={GlobalStyles.container}>
-            <FlatList data={ProjectsPlaceHolder}
-            renderItem={({item}) => 
-            <View style={styles.boxAccountExpenses}> 
-              <View>
-                <View style={styles.boxAccountName}>
-                  <Text style={styles.accountName}>{item.name}</Text>
-                </View>
-
-                    <View style={{flexDirection : "row", justifyContent : "space-around"}}>
+          <Loading loading={this.state.loading} />
+      {(this.state.length > 0) && (this.state.loading == false) ? (
+          <FlatList data={this.state.data}
+                    keyExtractor = {(item) => item.id.toString()}
+                    renderItem={({item}) => <TouchableOpacity style={styles.BoxAccount}  onPress={() => {
+                        this.props.navigation.navigate("Settings", {
+                            id : item.id,
+                            title: "Modifier un projet"
+                        })
+                    }}>
                         <View>
-                            <View style={{flex : 1}}>
-                                <Text h2 style={styles.expenseName}>Montant par mois : </Text>
-                            </View >
-                            <View>
-                                <Text style={styles.expenseAmount}>{item.amount_per_month }</Text>
-                            </View>
+                            <Text style={styles.AccountTitle}>{item.name}</Text>
                         </View>
                         <View>
-                            <View style={{flex : 1}}>
-                                <Text h2 style={styles.expenseName}>Date estimée : </Text>
-                            </View>
-                            <View>
-                                <Text style={styles.expenseAmount}>{item.estimated_date}</Text>
-                            </View>
+                            <Text>{(item.type == 0) ? "Mensualité": "Date"}</Text>
                         </View>
-                    </View>
-              </View>
-            </View>
-            } />
-
-        <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
-            <Icon name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {}}>
-            <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#1abc9c' title="All Tasks" onPress={() => {}}>
-            <Icon name="md-done-all" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
+                        <View style={styles.AccountAmount}>
+                            <Text style={styles.AccountAmount}>{item.amount} €</Text>
+                        </View>
+                        <View style={styles.AccountAmount}>
+                            <Text style={styles.AccountAmount}>{item.r_date} €</Text>
+                        </View>
+                        <View style={styles.AccountAmount}>
+                            <Text style={styles.AccountAmount}>{item.r_amount} €</Text>
+                        </View>
+                    </TouchableOpacity>
+                    } />
+      ) : (
+          <View style={styles.centering}>
+              <Image source={require('../../../assets/empty.png')} />
+              <Text>Il n'y a aucun projet, pourquoi pas en ajouter un ?</Text>
           </View>
-        {/* Rest of the app comes ABOVE the action button component !*/}
-      </SafeAreaView>
+      )}
+
+      <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate("Settings")} />
+      </View>
+      {/* Rest of the app comes ABOVE the action button component !*/}
+  </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  BoxAccount : {
+  backgroundColor : "#E5E5E5",
+  flexDirection : "column",
+  height: 300,
+  margin: 20,
+  padding: 10,
+  paddingBottom: 0,
+  paddingLeft: 0,
+  },
+  AccountTitle: {
+  fontSize: 18
+  },
+  AccountAmount: {
+  fontSize: 30,
+  position: 'absolute',
+  bottom:3,
+  textAlign: "right",
+  alignSelf: 'flex-end',
+  paddingRight: 10
+  },
+  centering: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center"
+  },
   boxAccountExpenses : {
     backgroundColor : "#E5E5E5",
     flexDirection : "column",
