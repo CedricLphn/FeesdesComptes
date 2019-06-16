@@ -2,7 +2,7 @@ import React from 'react';
 import {Platform, SafeAreaView, StyleSheet, Text, View, Picker, TextInput, Button, FlatList, Alert} from 'react-native';
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
+import Icon from 'react-native-vector-icons/FontAwesome'
 import DatePicker from 'react-native-datepicker'
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
@@ -13,6 +13,9 @@ import moment from "moment";
 import SQL from '../../Helpers/API/sql';
 
 const sql = new SQL();
+
+
+const myIcon = <Icon name="money" size={30} color="#900" />;
 
 export class ProjectsEdit extends React.Component {
     constructor(props){
@@ -211,19 +214,20 @@ export class ProjectsEdit extends React.Component {
                           </View>
                           {(this.state.selectedIndex == 0) ? (
                               <View style={[{flexDirection: 'row'},styles.boxes]}>
-                                  <View>
-                                      <Text>Montant : </Text>
+                                  <View style={{marginRight: 20}}>
+                                      {myIcon}
                                   </View>
                                   <View>
                                       <TextInput
                                           // onChangeText={(text) => this.setState({text})}
                                           // value={this.state.text}
-                                          placeholder={'6000 €'}
+                                          placeholder={(this.state.data.amount_per_month != null) ? this.state.data.amount_per_month : 'choisir un montant' }
                                           keyboardType={'numeric'}
                                           value={this.state.data.amount_per_month}
                                           onChangeText={this.handleRAmount}
                                       />
                                   </View>
+
                               </View>
                           ) : (
                               <View style={[{flexDirection: 'row'},styles.boxes]}>
