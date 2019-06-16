@@ -69,8 +69,17 @@ export class ProjectsEdit extends React.Component {
                     date : data.date,
                     amount_per_month : data.amount_per_month,
                     r_date : data.r_date,
-                    r_amount: data.r_amount,
+                    r_amount: data.r_amount
                 });
+                // console.log(sql.insert("projects", {
+                //     name : data.name,
+                //     type : this.state.selectedIndex,
+                //     amount : data.amount,
+                //     date : data.date,
+                //     amount_per_month : data.amount_per_month,
+                //     r_date : data.r_date,
+                //     r_amount: data.r_amount,
+                // }))
 
 
             }
@@ -87,24 +96,36 @@ export class ProjectsEdit extends React.Component {
             const endDate = moment().add(times, 'M').format('YYYY-MM-DD')
             this.setState({data: {
                     ...this.state.data,
-                    r_date : endDate
+                    r_date : endDate,
+                    amount_per_month : text
                 }})
         }
     }
 
     calculateAmountWithDate = (text) => {
-        const dateChoosen = moment(text)
+        const dateChoosen = text
         if(this.state.data.amount != null) {
-            const actualDate = moment(this.state.data.date)
-            const diff = dateChoosen.diff(actualDate)
-            const diffDuration = moment.duration(diff)
-            const tmp = diffDuration.months()
+            // console.log('jy suis')
+            const actualDate = moment().format('YYYY-MM-DD')
+
+            // console.log('initial ', actualDate)
+            // console.log('choisis ', dateChoosen)
+
+            const tmp = moment(dateChoosen).diff(actualDate, 'months', true)
+
+            // console.log('diff ', tmp)
+            // const diffDuration = moment.duration(diff)
+            // const tmp = diffDuration.months()
+
             const calcul =  this.state.data.amount/tmp
             this.setState({data: {
                     ...this.state.data,
-                    amount_per_month : calcul
+                    r_amount : calcul,
+                    date : text
                 }})
+
         }
+        console.log(this.state)
     }
 
     handleIndexChange = index => {
@@ -144,17 +165,12 @@ export class ProjectsEdit extends React.Component {
             amount : text
         }})};
 
-    handleRAmount = (text) => {this.setState({data: {
-            ...this.state.data,
-            amount_per_month : text
-        }})
+    handleRAmount = (text) => {
         this.calculateDateWithAmountPerMonth(text)
     };
 
-    handleRDate = (text) => {this.setState({data: {
-            ...this.state.data,
-            date : text
-        }})
+    handleRDate = (text) => {
+        this.calculateAmountWithDate(text)
     };
 
     static navigationOptions = ({ navigation }) => {
@@ -166,7 +182,6 @@ export class ProjectsEdit extends React.Component {
     };
 
   render() {
-      console.log(this.state)
       var button = (this.state.data.id != 0) ? "Modifier ce projet" : "Ajouter un projet";
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}

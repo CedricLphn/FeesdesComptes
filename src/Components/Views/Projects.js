@@ -31,11 +31,34 @@ export class Projects extends React.Component {
         this.refresh();
     }
 
+
+    // name : data.name,
+    // type : this.state.selectedIndex,
+    // amount : data.amount,
+    // date : data.date,
+    // amount_per_month : data.amount_per_month,
+    // r_date : data.r_date,
+    // r_amount: data.r_amount,
+
     refresh() {
-        console.log(sql.createTable("projects", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
+
+        // IF CHANGEMENT ON TABLE FIELDS UNCOMMENT ONE TIME BELOW
+        // sql.transaction(
+        //     tx => {
+        //         tx.executeSql('DROP TABLE projects', [], (_, {rows}) => {
+        //             console.log(rows);
+        //
+        //         })
+        //     }
+        // )
+
+        // TABLE FIELDS BELOW
+        sql.createTable("projects", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0, date varchar, amount_per_month integer, r_date varchar, r_amount integer")
+
+
         sql.transaction(
             tx => {
-                tx.executeSql('select * from accounts', [], (_, { rows }) => {
+                tx.executeSql('select * from projects', [], (_, { rows }) => {
                         console.log(rows._array);
                         this.setState({
                             data : rows._array,
@@ -47,6 +70,8 @@ export class Projects extends React.Component {
                 );
             }
         );
+
+
     }
 
   render() {
@@ -63,9 +88,16 @@ export class Projects extends React.Component {
                             id : item.id,
                             title: "Modifier un projet"
                         })
+                        console.log(item)
                     }}>
                         <View>
-                            <Text style={styles.AccountTitle}>{item.name}</Text>
+                            <Text>{item.name}</Text>
+                            <Text>{item.amount}</Text>
+                        </View>
+                        <View>
+                            <Text>{item.amount_per_month}</Text>
+                            {/*{(item.type == 0) ? }*/}
+                            <Text></Text>
                         </View>
                         <View>
                             <Text>{(item.type == 0) ? "Mensualité": "Date"}</Text>
@@ -113,8 +145,8 @@ const styles = StyleSheet.create({
   fontSize: 30,
   position: 'absolute',
   bottom:3,
-  textAlign: "right",
-  alignSelf: 'flex-end',
+  // textAlign: "right",
+  // alignSelf: 'flex-end',
   paddingRight: 10
   },
   centering: {
