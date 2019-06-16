@@ -233,7 +233,7 @@ export class ProjectsEdit extends React.Component {
                                           style={{width: 200, height: 30}}
                                           date={this.state.data.date}
                                           mode="date"
-                                          placeholder={this.state.data.date}
+                                          placeholder={(this.state.data.date != null) ? this.state.data.date : 'choisir une date' }
                                           format="YYYY-MM-DD"
                                           minDate={moment().format('YYYY-MM-DD')}
                                           maxDate={moment().add(30, 'years').format('YYYY-MM-DD')}
