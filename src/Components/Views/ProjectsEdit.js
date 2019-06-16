@@ -82,16 +82,14 @@ export class ProjectsEdit extends React.Component {
     calculateDateWithAmountPerMonth (text) {
         if(this.state.data.amount != null)
         {
-            console.log('OK')
             const amountPerMonth = text
             const times = Math.round(this.state.data.amount/amountPerMonth)
-            const endDate = moment(this.state.data.date).add(times, 'months')
+            const endDate = moment().add(times, 'M').format('YYYY-MM-DD')
             this.setState({data: {
                     ...this.state.data,
                     r_date : endDate
                 }})
         }
-        console.log('je calcule une date')
     }
 
     calculateAmountWithDate = (text) => {
@@ -101,9 +99,10 @@ export class ProjectsEdit extends React.Component {
             const diff = dateChoosen.diff(actualDate)
             const diffDuration = moment.duration(diff)
             const tmp = diffDuration.months()
+            const calcul =  this.state.data.amount/tmp
             this.setState({data: {
                     ...this.state.data,
-                    amount_per_month : this.state.data.amount/tmp
+                    amount_per_month : calcul
                 }})
         }
     }
@@ -149,6 +148,7 @@ export class ProjectsEdit extends React.Component {
             ...this.state.data,
             amount_per_month : text
         }})
+        this.calculateDateWithAmountPerMonth(text)
     };
 
     handleRDate = (text) => {this.setState({data: {
@@ -167,7 +167,6 @@ export class ProjectsEdit extends React.Component {
 
   render() {
       console.log(this.state)
-      console.log('RENDER')
       var button = (this.state.data.id != 0) ? "Modifier ce projet" : "Ajouter un projet";
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
