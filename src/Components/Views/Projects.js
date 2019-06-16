@@ -11,6 +11,12 @@ import Loading from '../Loading';
 
 const sql = new SQL();
 
+import IconV from 'react-native-vector-icons/FontAwesome'
+
+const euroIcon = <IconV name="euro" size={40} color="#9b1f1f" />;
+const dateIcon = <IconV name="calendar" size={30} color="#00897B" />;
+const moneyIcon = <IconV name="money" size={30} color="#ad7d30" />;
+
 export class Projects extends React.Component {
     constructor(props) {
         super(props);
@@ -83,33 +89,22 @@ export class Projects extends React.Component {
       {(this.state.length > 0) && (this.state.loading == false) ? (
           <FlatList data={this.state.data}
                     keyExtractor = {(item) => item.id.toString()}
-                    renderItem={({item}) => <TouchableOpacity style={styles.BoxAccount}  onPress={() => {
+                    renderItem={({item}) => <TouchableOpacity style={styles.Box}  onPress={() => {
                         this.props.navigation.navigate("Settings", {
                             id : item.id,
                             title: "Modifier un projet"
                         })
                         console.log(item)
                     }}>
-                        <View>
-                            <Text>{item.name}</Text>
-                            <Text>{item.amount}</Text>
+                        <View style={[styles.miniBoxes, {marginBottom: 70}]}>
+                            <Text style={{fontSize: 25, textTransform: 'uppercase', fontWeight: 'bold', width: 180, height: 80, fontStyle: 'italic'}}>{item.name}</Text>
+                            <Text style={{height: 40, fontSize: 40, color: '#706b64'}}>{item.amount} {euroIcon}</Text>
+
+
                         </View>
-                        <View>
-                            <Text>{item.amount_per_month}</Text>
-                            {/*{(item.type == 0) ? }*/}
-                            <Text></Text>
-                        </View>
-                        <View>
-                            <Text>{(item.type == 0) ? "Mensualité": "Date"}</Text>
-                        </View>
-                        <View style={styles.AccountAmount}>
-                            <Text style={styles.AccountAmount}>{item.amount} €</Text>
-                        </View>
-                        <View style={styles.AccountAmount}>
-                            <Text style={styles.AccountAmount}>{item.r_date} €</Text>
-                        </View>
-                        <View style={styles.AccountAmount}>
-                            <Text style={styles.AccountAmount}>{item.r_amount} €</Text>
+                        <View style={[styles.miniBoxes, {}]}>
+                            <Text style={{height: 50, fontSize: 30, color: '#706b64'}}>{moneyIcon}  {item.amount_per_month}</Text>
+                            <Text style={{height: 50, fontSize: 20, color: '#706b64'}}>{item.date}   {dateIcon}</Text>
                         </View>
                     </TouchableOpacity>
                     } />
@@ -129,25 +124,13 @@ export class Projects extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  BoxAccount : {
+  Box : {
   backgroundColor : "#E5E5E5",
   flexDirection : "column",
-  height: 300,
-  margin: 20,
-  padding: 10,
-  paddingBottom: 0,
-  paddingLeft: 0,
-  },
-  AccountTitle: {
-  fontSize: 18
-  },
-  AccountAmount: {
-  fontSize: 30,
-  position: 'absolute',
-  bottom:3,
-  // textAlign: "right",
-  // alignSelf: 'flex-end',
-  paddingRight: 10
+  height: 180,
+      marginTop: 1,
+      marginBottom: 1,
+  padding: 20
   },
   centering: {
   flex: 1,
@@ -172,5 +155,6 @@ const styles = StyleSheet.create({
   boxExpense : {
     flex : 1, marginLeft : 60, marginRight : 60
   },
-  boxAccountName : {marginBottom : 30, borderColor : "white", borderWidth : 1}
+  boxAccountName : {marginBottom : 30, borderColor : "white", borderWidth : 1},
+    miniBoxes : { flex: 1, flexDirection: 'row', justifyContent : 'space-between' }
 })

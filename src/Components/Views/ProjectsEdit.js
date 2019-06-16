@@ -30,8 +30,6 @@ export class ProjectsEdit extends React.Component {
             type : null,
             date : null,
             amount_per_month: null,
-            r_date: null,
-            r_amount : null
         }
 
 
@@ -54,8 +52,6 @@ export class ProjectsEdit extends React.Component {
                     amount: data.amount,
                     date : data.date,
                     amount_per_month : data.amount_per_month,
-                    r_date : data.r_date,
-                    r_amount: data.r_amount
                 }, {
                     id : data.id
                 })
@@ -68,8 +64,6 @@ export class ProjectsEdit extends React.Component {
                     amount : data.amount,
                     date : data.date,
                     amount_per_month : data.amount_per_month,
-                    r_date : data.r_date,
-                    r_amount: data.r_amount
                 });
                 // console.log(sql.insert("projects", {
                 //     name : data.name,
@@ -96,7 +90,7 @@ export class ProjectsEdit extends React.Component {
             const endDate = moment().add(times, 'M').format('YYYY-MM-DD')
             this.setState({data: {
                     ...this.state.data,
-                    r_date : endDate,
+                    date : endDate,
                     amount_per_month : text
                 }})
         }
@@ -120,7 +114,7 @@ export class ProjectsEdit extends React.Component {
             const calcul =  this.state.data.amount/tmp
             this.setState({data: {
                     ...this.state.data,
-                    r_amount : calcul,
+                    amount_per_month : calcul,
                     date : text
                 }})
 
