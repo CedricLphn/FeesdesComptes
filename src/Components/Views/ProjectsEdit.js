@@ -10,8 +10,6 @@ import moment from "moment";
 import SQL from '../../Helpers/API/sql';
 
 const sql = new SQL();
-
-
 const myIcon = <Icon name="money" size={30} color="#900" />;
 
 export class ProjectsEdit extends React.Component {
@@ -76,7 +74,7 @@ export class ProjectsEdit extends React.Component {
             this.setState({data: {
                     ...this.state.data,
                     date : endDate,
-                    amount_per_month : text
+                    amount_per_month : Math.round(text)
                 }})
         }
     }
@@ -89,7 +87,7 @@ export class ProjectsEdit extends React.Component {
             const calcul =  this.state.data.amount/tmp
             this.setState({data: {
                     ...this.state.data,
-                    amount_per_month : calcul,
+                    amount_per_month : Math.round(calcul),
                     date : text
                 }})
         }
@@ -127,7 +125,7 @@ export class ProjectsEdit extends React.Component {
 
     handleAmount = (text) => {this.setState({data: {
             ...this.state.data,
-            amount : text
+            amount : Math.round(text)
         }})};
 
     handleRAmount = (text) => {
@@ -157,25 +155,29 @@ export class ProjectsEdit extends React.Component {
                       <Loading loading={this.state.loading} />
                   ) : (
                       <View >
-                          <View style={styles.boxes}>
+                          <View style={[{marginTop: 30},styles.boxes]}>
                               <View  style={{flexDirection: 'row', alignItems: 'center'}}>
-                                  <Text>Nom du projet : </Text>
+                                  <Text style={{fontWeight: 'bold'}}>Nom du projet :        </Text>
                                   <TextInput
                                       placeholder={(this.state.data.name != null) ? this.state.data.name : 'Macbook 15' }
                                       value={this.state.data.name}
+                                      maxLength={20}
                                       onChangeText={this.handleAccountName}
                                   />
+
                               </View>
+
 
                           </View>
                           <View style={[{flexDirection: 'row'},styles.boxes]}>
                               <View>
-                                  <Text>Montant : </Text>
+                                  <Text style={{fontWeight: 'bold'}}>Montant :      </Text>
                               </View>
                               <View>
                                   <TextInput
+                                      maxLength={5}
                                       placeholder={'3000 €'}
-                                      keyboardType={'numeric'}
+                                      keyboardType={'number-pad'}
                                       value={this.state.data.amount.toString()}
                                       onChangeText={this.handleAmount}
                                   />
@@ -190,15 +192,17 @@ export class ProjectsEdit extends React.Component {
                           </View>
                           {(this.state.selectedIndex == 0) ? (
                               <View style={[{flexDirection: 'row'},styles.boxes]}>
-                                  <View style={{marginRight: 20}}>
+                                  <View style={{marginRight: 10}}>
                                       {myIcon}
                                   </View>
                                   <View>
                                       <TextInput
+                                          maxLength={5}
                                           placeholder={'choisir un montant'}
-                                          keyboardType={'numeric'}
+                                          keyboardType={'number-pad'}
                                           value={this.state.data.amount_per_month.toString()}
                                           onChangeText={this.handleRAmount}
+                                          style={{borderWidth: 0.5, borderRadius: 5, padding: 10, borderColor: '#d8d4d4', width: 160, textAlign: 'center'}}
                                       />
                                   </View>
 
@@ -284,5 +288,5 @@ export class ProjectsEdit extends React.Component {
 const styles = StyleSheet.create({
     titles : {textTransform : 'uppercase', textAlign : 'center'},
     inputs : {margin : 20, height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'center'},
-    boxes : {height: 50, alignItems: 'center', justifyContent: 'center'}
+    boxes : {height: 50, alignItems: 'center', justifyContent: 'center', marginBottom: 30}
 })

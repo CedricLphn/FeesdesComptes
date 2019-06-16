@@ -3,9 +3,10 @@
   <component name="ChangeListManager">
     <list default="true" id="9476710c-e8e8-49b4-9366-ce752fd2222b" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Views/Accounts.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Views/Accounts.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Views/Projects.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Views/Projects.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/Components/Views/ProjectsEdit.js" beforeDir="false" afterPath="$PROJECT_DIR$/src/Components/Views/ProjectsEdit.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -33,11 +34,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Components/Views/Projects.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="555">
-                  <caret line="127" column="17" lean-forward="true" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
+                <state relative-caret-position="-851">
+                  <caret line="7" selection-start-line="7" selection-end-line="7" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -58,7 +59,7 @@
             <entry file="file://$PROJECT_DIR$/src/Helpers/API/sql.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="869">
-                  <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+                  <caret line="76" selection-start-line="76" selection-end-line="76" />
                 </state>
               </provider>
             </entry>
@@ -66,7 +67,7 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Components/Navigation/Navigation.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="1033">
+                <state relative-caret-position="1028">
                   <caret line="83" column="37" selection-start-line="83" selection-start-column="37" selection-end-line="83" selection-end-column="37" />
                   <folding>
                     <element signature="e#0#102#0" expanded="true" />
@@ -75,11 +76,11 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Components/Views/ProjectsEdit.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="180">
-                  <caret line="246" column="62" lean-forward="true" selection-start-line="246" selection-start-column="62" selection-end-line="246" selection-end-column="62" />
+                <state relative-caret-position="782">
+                  <caret line="199" column="54" selection-start-line="199" selection-start-column="54" selection-end-line="199" selection-end-column="54" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
                   </folding>
@@ -90,8 +91,8 @@
           <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/package.json">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="390">
-                  <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
+                <state relative-caret-position="405">
+                  <caret line="27" selection-start-line="27" selection-end-line="27" />
                 </state>
               </provider>
             </entry>
@@ -100,7 +101,7 @@
       </split-first>
       <split-second>
         <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-          <file pinned="false" current-in-tab="true">
+          <file pinned="false" current-in-tab="false">
             <entry file="file://$PROJECT_DIR$/src/Components/Views/Accounts.js">
               <provider selected="true" editor-type-id="text-editor">
                 <state relative-caret-position="395">
@@ -112,10 +113,10 @@
               </provider>
             </entry>
           </file>
-          <file pinned="false" current-in-tab="false">
+          <file pinned="false" current-in-tab="true">
             <entry file="file://$PROJECT_DIR$/src/Components/Views/AccountsEdit.js">
               <provider selected="true" editor-type-id="text-editor">
-                <state relative-caret-position="-1319">
+                <state relative-caret-position="-1303">
                   <caret line="11" selection-start-line="11" selection-end-line="11" selection-end-column="22" />
                   <folding>
                     <element signature="e#0#26#0" expanded="true" />
@@ -138,9 +139,10 @@
         <option value="$PROJECT_DIR$/src/Components/Navigation/Navigation.js" />
         <option value="$PROJECT_DIR$/package.json" />
         <option value="$PROJECT_DIR$/src/Helpers/API/sql.js" />
-        <option value="$PROJECT_DIR$/src/Components/Views/ProjectsEdit.js" />
-        <option value="$PROJECT_DIR$/src/Components/Views/Projects.js" />
         <option value="$PROJECT_DIR$/src/Components/Views/Accounts.js" />
+        <option value="$PROJECT_DIR$/node_modules/react-native-datepicker/style.js" />
+        <option value="$PROJECT_DIR$/src/Components/Views/Projects.js" />
+        <option value="$PROJECT_DIR$/src/Components/Views/ProjectsEdit.js" />
       </list>
     </option>
   </component>
@@ -171,6 +173,17 @@
             <path>
               <item name="FeesdesComptes" type="b2602c69:ProjectViewProjectNode" />
               <item name="FeesdesComptes" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FeesdesComptes" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FeesdesComptes" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FeesdesComptes" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FeesdesComptes" type="462c0819:PsiDirectoryNode" />
+              <item name="node_modules" type="462c0819:PsiDirectoryNode" />
+              <item name="react-native-datepicker" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FeesdesComptes" type="b2602c69:ProjectViewProjectNode" />
@@ -266,12 +279,12 @@
       <workItem from="1560636310373" duration="10510000" />
       <workItem from="1560687321506" duration="4132000" />
       <workItem from="1560691917679" duration="508000" />
-      <workItem from="1560719193198" duration="3653000" />
+      <workItem from="1560719193198" duration="7641000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42640000" />
+    <option name="totallyTimeSpent" value="46628000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="0" y="23" width="2560" height="1337" extended-state="6" />
@@ -338,37 +351,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/package.json">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="390">
-          <caret line="26" lean-forward="true" selection-start-line="26" selection-end-line="26" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/Views/AccountsEdit.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1319">
-          <caret line="11" selection-start-line="11" selection-end-line="11" selection-end-column="22" />
-          <folding>
-            <element signature="e#0#26#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/Navigation/Navigation.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1033">
-          <caret line="83" column="37" selection-start-line="83" selection-start-column="37" selection-end-line="83" selection-end-column="37" />
-          <folding>
-            <element signature="e#0#102#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Helpers/API/sql.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="869">
-          <caret line="76" lean-forward="true" selection-start-line="76" selection-end-line="76" />
+          <caret line="76" selection-start-line="76" selection-end-line="76" />
         </state>
       </provider>
     </entry>
@@ -379,30 +365,64 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/Views/ProjectsEdit.js">
+    <entry file="file://$PROJECT_DIR$/src/Components/Views/Accounts.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="180">
-          <caret line="246" column="62" lean-forward="true" selection-start-line="246" selection-start-column="62" selection-end-line="246" selection-end-column="62" />
+        <state relative-caret-position="395">
+          <caret line="69" selection-start-line="69" selection-end-line="69" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/package.json">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="27" selection-start-line="27" selection-end-line="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/node_modules/react-native-datepicker/style.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="24" selection-start-line="24" selection-end-line="25" selection-end-column="28" />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/Views/Projects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="555">
-          <caret line="127" column="17" lean-forward="true" selection-start-line="127" selection-start-column="17" selection-end-line="127" selection-end-column="17" />
+        <state relative-caret-position="-851">
+          <caret line="7" selection-start-line="7" selection-end-line="7" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/Views/Accounts.js">
+    <entry file="file://$PROJECT_DIR$/src/Components/Views/AccountsEdit.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="395">
-          <caret line="69" selection-start-line="69" selection-end-line="69" />
+        <state relative-caret-position="-1303">
+          <caret line="11" selection-start-line="11" selection-end-line="11" selection-end-column="22" />
+          <folding>
+            <element signature="e#0#26#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Navigation/Navigation.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1028">
+          <caret line="83" column="37" selection-start-line="83" selection-start-column="37" selection-end-line="83" selection-end-column="37" />
+          <folding>
+            <element signature="e#0#102#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Views/ProjectsEdit.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="782">
+          <caret line="199" column="54" selection-start-line="199" selection-start-column="54" selection-end-line="199" selection-end-column="54" />
           <folding>
             <element signature="e#0#26#0" expanded="true" />
           </folding>

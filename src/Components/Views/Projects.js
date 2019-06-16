@@ -81,7 +81,7 @@ export class Projects extends React.Component {
                         })
                     }}>
                         <View style={[styles.miniBoxes, {marginBottom: 70}]}>
-                            <Text style={{fontSize: 25, textTransform: 'uppercase', fontWeight: 'bold', width: 180, height: 80, fontStyle: 'italic'}}>{item.name}</Text>
+                            <Text style={{fontSize: 30, textTransform: 'uppercase', fontWeight: 'bold', width: 180, height: 80, fontStyle: 'italic'}}>{item.name}</Text>
                             <Text style={{height: 40, fontSize: 40, color: '#706b64'}}>{item.amount} {euroIcon}</Text>
 
 
@@ -109,7 +109,7 @@ export class Projects extends React.Component {
 
 const styles = StyleSheet.create({
   Box : {
-  backgroundColor : "#E5E5E5",
+  backgroundColor : "#f4f4f4",
   flexDirection : "column",
   height: 180,
       marginTop: 1,
