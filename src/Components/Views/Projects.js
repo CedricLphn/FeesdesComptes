@@ -1,18 +1,12 @@
 import React from 'react';
 import {Platform, SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Image} from 'react-native';
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
-
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
-import ProjectsPlaceHolder from '../../Helpers/PlaceHolders/Projects.js'
-
 import SQL from '../../Helpers/API/sql';
 import Loading from '../Loading';
-
-const sql = new SQL();
-
 import IconV from 'react-native-vector-icons/FontAwesome'
 
+const sql = new SQL();
 const euroIcon = <IconV name="euro" size={40} color="#9b1f1f" />;
 const dateIcon = <IconV name="calendar" size={30} color="#00897B" />;
 const moneyIcon = <IconV name="money" size={30} color="#ad7d30" />;
@@ -36,15 +30,6 @@ export class Projects extends React.Component {
         })
         this.refresh();
     }
-
-
-    // name : data.name,
-    // type : this.state.selectedIndex,
-    // amount : data.amount,
-    // date : data.date,
-    // amount_per_month : data.amount_per_month,
-    // r_date : data.r_date,
-    // r_amount: data.r_amount,
 
     refresh() {
 
@@ -94,7 +79,6 @@ export class Projects extends React.Component {
                             id : item.id,
                             title: "Modifier un projet"
                         })
-                        console.log(item)
                     }}>
                         <View style={[styles.miniBoxes, {marginBottom: 70}]}>
                             <Text style={{fontSize: 25, textTransform: 'uppercase', fontWeight: 'bold', width: 180, height: 80, fontStyle: 'italic'}}>{item.name}</Text>

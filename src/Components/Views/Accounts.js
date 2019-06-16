@@ -67,8 +67,7 @@ export class Accounts extends React.Component {
                 id : item.id,
                 title: "Modifier un compte"
               })
-                console.log(item)
-            }}> 
+            }}>
             <View> 
                 <Text style={styles.AccountTitle}>{item.name}</Text>
             </View>

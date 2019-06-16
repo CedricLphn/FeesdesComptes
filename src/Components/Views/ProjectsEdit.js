@@ -1,12 +1,9 @@
 import React from 'react';
-import {Platform, SafeAreaView, StyleSheet, Text, View, Picker, TextInput, Button, FlatList, Alert} from 'react-native';
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-import ActionButton from 'react-native-action-button';
+import {Platform, SafeAreaView, StyleSheet, Text, View, TextInput, Button, Alert} from 'react-native';
 import Icon from 'react-native-vector-icons/FontAwesome'
 import DatePicker from 'react-native-datepicker'
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
-import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
 import Loading from "../Loading";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import moment from "moment";
@@ -26,10 +23,10 @@ export class ProjectsEdit extends React.Component {
         var data = {
             id : navigation.getParam("id", 0),
             name : null,
-            amount: null,
+            amount: "",
             type : null,
             date : null,
-            amount_per_month: null,
+            amount_per_month: "",
         }
 
 
@@ -65,19 +62,7 @@ export class ProjectsEdit extends React.Component {
                     date : data.date,
                     amount_per_month : data.amount_per_month,
                 });
-                // console.log(sql.insert("projects", {
-                //     name : data.name,
-                //     type : this.state.selectedIndex,
-                //     amount : data.amount,
-                //     date : data.date,
-                //     amount_per_month : data.amount_per_month,
-                //     r_date : data.r_date,
-                //     r_amount: data.r_amount,
-                // }))
-
-
             }
-
             this.props.navigation.navigate("Projects", { updated: true});
         }
     }
@@ -99,27 +84,15 @@ export class ProjectsEdit extends React.Component {
     calculateAmountWithDate = (text) => {
         const dateChoosen = text
         if(this.state.data.amount != null) {
-            // console.log('jy suis')
             const actualDate = moment().format('YYYY-MM-DD')
-
-            // console.log('initial ', actualDate)
-            // console.log('choisis ', dateChoosen)
-
             const tmp = moment(dateChoosen).diff(actualDate, 'months', true)
-
-            // console.log('diff ', tmp)
-            // const diffDuration = moment.duration(diff)
-            // const tmp = diffDuration.months()
-
             const calcul =  this.state.data.amount/tmp
             this.setState({data: {
                     ...this.state.data,
                     amount_per_month : calcul,
                     date : text
                 }})
-
         }
-        console.log(this.state)
     }
 
     handleIndexChange = index => {
@@ -139,11 +112,9 @@ export class ProjectsEdit extends React.Component {
                                 selectedIndex: rows._array[0].type,
                                 loading: false
                             });
-
                         }
                     );
                 }
-
             );
         }
     }
@@ -190,8 +161,7 @@ export class ProjectsEdit extends React.Component {
                               <View  style={{flexDirection: 'row', alignItems: 'center'}}>
                                   <Text>Nom du projet : </Text>
                                   <TextInput
-                                      // value={this.state.text}
-                                      placeholder={'ex : Mac Pro modulaire'}
+                                      placeholder={(this.state.data.name != null) ? this.state.data.name : 'Macbook 15' }
                                       value={this.state.data.name}
                                       onChangeText={this.handleAccountName}
                                   />
@@ -204,11 +174,9 @@ export class ProjectsEdit extends React.Component {
                               </View>
                               <View>
                                   <TextInput
-                                      // onChangeText={(text) => this.setState({text})}
-                                      // value={this.state.text}
-                                      placeholder={'6000 €'}
+                                      placeholder={'3000 €'}
                                       keyboardType={'numeric'}
-                                      value={this.state.data.amount}
+                                      value={this.state.data.amount.toString()}
                                       onChangeText={this.handleAmount}
                                   />
                               </View>
@@ -227,11 +195,9 @@ export class ProjectsEdit extends React.Component {
                                   </View>
                                   <View>
                                       <TextInput
-                                          // onChangeText={(text) => this.setState({text})}
-                                          // value={this.state.text}
-                                          placeholder={(this.state.data.amount_per_month != null) ? this.state.data.amount_per_month : 'choisir un montant' }
+                                          placeholder={'choisir un montant'}
                                           keyboardType={'numeric'}
-                                          value={this.state.data.amount_per_month}
+                                          value={this.state.data.amount_per_month.toString()}
                                           onChangeText={this.handleRAmount}
                                       />
                                   </View>
@@ -245,7 +211,7 @@ export class ProjectsEdit extends React.Component {
                                           style={{width: 200, height: 30}}
                                           date={this.state.data.date}
                                           mode="date"
-                                          placeholder={(this.state.data.date != null) ? this.state.data.date : 'choisir une date' }
+                                          placeholder={'choisir une date'}
                                           format="YYYY-MM-DD"
                                           minDate={moment().format('YYYY-MM-DD')}
                                           maxDate={moment().add(30, 'years').format('YYYY-MM-DD')}
@@ -278,22 +244,22 @@ export class ProjectsEdit extends React.Component {
                               {(this.state.data.id != 0) ? (
                                   <View>
                                       <Button
-                                          title="Supprimer ce compte"
+                                          title="Supprimer ce projet"
                                           color="red"
                                           onPress={() => {
                                               Alert.alert(
                                                   'Confirmation',
-                                                  'Voulez-vous vraiment supprimer ce compte ?',
+                                                  'Voulez-vous vraiment supprimer ce projet ?',
                                                   [
                                                       {
                                                           text: 'Non',
                                                           style: 'cancel',
                                                       },
                                                       {text: 'Oui', onPress: () => {
-                                                              sql.delete("accounts", {
+                                                              sql.delete("projects", {
                                                                   id: this.state.data.id
                                                               });
-                                                              this.props.navigation.navigate("Accounts", { updated: true});
+                                                              this.props.navigation.navigate("Projects", { updated: true});
                                                           }},
                                                   ],
                                                   {cancelable: false},
