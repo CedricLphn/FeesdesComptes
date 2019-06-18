@@ -4,41 +4,50 @@ import {Button, TextInput, View} from "react-native";
 export class Input extends Component {
 
     state = {
-        inputs: ["input-0"]
-    }
+        expenses: [{
+            name: "",
+            amount: ""
+        }]
+    };
+
+    static defaultProps = {
+
+    };
 
     render() {
-        const input = this.state.inputs.map((input, key) => {
+        const input = this.state.expenses.map((input, key) => {
             return(
-                <View key={input} style={{flexDirection : 'row', marginBottom : 20}} >
+                <View key={key} style={{flexDirection : 'row', marginBottom : 20}} >
                     <View style={{flex: 4, marginLeft : 40}}>
                         <TextInput
                             style={{height: 40, borderColor: 'gray', borderBottomWidth: 1}}
                             // onChangeText={(text) => this.setState({text})}
-                            // value={this.state.text}
-                            placeholder={'ex : loyer'}
+                            value={this.state.expenses[key].name}
+                            placeholder={'Mon loyer'}
+                            onChange={(e) => this.handleChange(e, key, "name")}
                         />
                     </View>
                     <View style={{flex: 3, marginLeft : 40}}>
                         <TextInput
                             style={{height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'right'}}
                             // onChangeText={(text) => this.setState({text})}
-                            value={key}
+                            //value={key.toString()}
                             placeholder={'600.00 €'}
+                            value={this.state.expenses[key].amount}
+                            onChange={(e) => this.handleChange(e, key, "amount")}
                         />
                     </View>
                     <View style={{flex : 2}}>
-                        {(key == (this.state.inputs.length -1)) ? (
+                        {(key == (this.state.expenses.length -1)) ? (
                             <Button
                                 onPress={() => this.addInput()}
                                 title="&#10010;"
                                 color="#28a745"
                             />
                         ):<Button
-                            onPress={() => this.removeInput(key)}
+                            onPress={() => this.handleRemove(key)}
                             title="&#10008;"
                             color="#cc0001"
-                            accessibilityLabel="Learn more about this purple button"
                         />}
 
                     </View>
@@ -52,15 +61,41 @@ export class Input extends Component {
     }
 
     addInput() {
-        let newInput = `input-${this.state.inputs.length}`;
         this.setState({
-            inputs : [...this.state.inputs, newInput]
-        });
+            expenses:
+                [...this.state.expenses,
+                {
+                    name :"",
+                    amount: ""
+                }]
+
+        })
+        console.log("jenvoie ca ", this.state.expenses);
+
+        this.props.onChange(this.state.expenses);
+
     }
 
-    removeInput(key) {
-        const {inputs} = this.state;
-        let newInputTab = inputs.splice(0, key).concat(inputs.slice(key, inputs.length));
-        this.setState({inputs: newInputTab});
+   handleRemove(key) {
+        this.state.expenses.splice(key,1);
+        this.setState({
+            expenses: this.state.expenses
+        })
+
+
+       this.props.onChange(this.state.expenses);
+    }
+
+    handleChange(e, key, type) {
+        let change = e.nativeEvent.text;
+        let expense = this.state.expenses;
+        if(type === "name") {
+            expense[key].name = change;
+        }else {
+            expense[key].amount = change;
+        }
+        this.setState({expense})
+
+
     }
 }
