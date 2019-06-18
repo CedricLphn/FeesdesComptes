@@ -53,6 +53,7 @@ export class Accounts extends React.Component {
   }
 
   render() {
+
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
@@ -66,7 +67,7 @@ export class Accounts extends React.Component {
                 id : item.id,
                 title: "Modifier un compte"
               })
-            }}> 
+            }}>
             <View> 
                 <Text style={styles.AccountTitle}>{item.name}</Text>
             </View>

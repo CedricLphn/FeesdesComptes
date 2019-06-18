@@ -4,6 +4,7 @@ import {Expenses} from '../Views/Expenses'
 import {Projects} from '../Views/Projects'
 import {AccountsEdit} from '../Views/AccountsEdit'
 import { ExpensesEdit } from '../Views/ExpensesEdit';
+import { ProjectsEdit } from '../Views/ProjectsEdit';
 
 const AccountStack = createStackNavigator(
     {
@@ -49,6 +50,28 @@ const ExpensesStack = createStackNavigator(
   }
 );
 
+const ProjectsStack = createStackNavigator(
+    {
+        Projects: {
+            navigationOptions: () => ({
+                title: "Mes projets",
+            }),
+            screen: Projects
+        },
+        Settings: {
+            screen: ProjectsEdit
+        }
+    },
+    {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#00897B',
+            },
+            headerTintColor: '#FFFFFF'
+        },
+    }
+);
+
 const TabNavigator = createBottomTabNavigator({
     Accounts: { screen: AccountStack,
                 navigationOptions: {
@@ -58,7 +81,7 @@ const TabNavigator = createBottomTabNavigator({
                 navigationOptions: {
                     title: 'Charges'
                 } },
-    Projects: { screen: Projects,
+    Projects: { screen: ProjectsStack,
                 navigationOptions: {
                     title: 'Projets'
                 } },

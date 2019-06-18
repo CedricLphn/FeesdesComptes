@@ -1,157 +1,284 @@
 import React from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View, Picker , TextInput, Button, FlatList } from 'react-native';
-import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button';
-import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
+import {Platform, SafeAreaView, StyleSheet, Text, View, TextInput, Button, Alert} from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome'
 import DatePicker from 'react-native-datepicker'
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
-import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
+import Loading from "../Loading";
+import SegmentedControlTab from "react-native-segmented-control-tab";
+import moment from "moment";
+import SQL from '../../Helpers/API/sql';
 
-var accountType = [
-    {label : 'avec un montant', value : 1},
-    {label : 'avec une date', value : 2}
-]
+const sql = new SQL();
+const myIcon = <Icon name="money" size={30} color="#900" />;
 
 export class ProjectsEdit extends React.Component {
     constructor(props){
         super(props)
-        this.state = {date:"2016-05-15"}
-      }
+
+        const { navigation } = this.props;
+
+        var data = {
+            id : navigation.getParam("id", 0),
+            name : null,
+            amount: "",
+            type : null,
+            date : null,
+            amount_per_month: "",
+        }
+
+
+        this.state = {
+            data : data,
+            selectedIndex : 0,
+            loading: (data.id > 0) ? true: false,
+        }
+    }
+
+
+    Transaction() {
+        var data = this.state.data;
+        if(data.name != null && data.amount != null) {
+            if(data.id != 0) {
+                // Update
+                sql.update("projects", {
+                    name: data.name,
+                    type: this.state.selectedIndex,
+                    amount: data.amount,
+                    date : data.date,
+                    amount_per_month : data.amount_per_month,
+                }, {
+                    id : data.id
+                })
+            }else {
+                // Add
+
+                sql.insert("projects", {
+                    name : data.name,
+                    type : this.state.selectedIndex,
+                    amount : data.amount,
+                    date : data.date,
+                    amount_per_month : data.amount_per_month,
+                });
+            }
+            this.props.navigation.navigate("Projects", { updated: true});
+        }
+    }
+
+    calculateDateWithAmountPerMonth (text) {
+        if(this.state.data.amount != null)
+        {
+            const amountPerMonth = text
+            const times = Math.round(this.state.data.amount/amountPerMonth)
+            const endDate = moment().add(times, 'M').format('YYYY-MM-DD')
+            this.setState({data: {
+                    ...this.state.data,
+                    date : endDate,
+                    amount_per_month : Math.round(text)
+                }})
+        }
+    }
+
+    calculateAmountWithDate = (text) => {
+        const dateChoosen = text
+        if(this.state.data.amount != null) {
+            const actualDate = moment().format('YYYY-MM-DD')
+            const tmp = moment(dateChoosen).diff(actualDate, 'months', true)
+            const calcul =  this.state.data.amount/tmp
+            this.setState({data: {
+                    ...this.state.data,
+                    amount_per_month : Math.round(calcul),
+                    date : text
+                }})
+        }
+    }
+
+    handleIndexChange = index => {
+        this.setState({
+            ...this.state,
+            selectedIndex: index
+        });
+    };
+
+    componentDidMount() {
+        if(this.state.data.id != 0) {
+            sql.transaction(
+                tx => {
+                    tx.executeSql('select * from projects where id=?', [this.state.data.id], (_, { rows }) => {
+                            this.setState({
+                                data : rows._array[0],
+                                selectedIndex: rows._array[0].type,
+                                loading: false
+                            });
+                        }
+                    );
+                }
+            );
+        }
+    }
+
+
+    handleAccountName = (text) => {this.setState({data: {
+            ...this.state.data,
+            name : text
+        }})};
+
+    handleAmount = (text) => {this.setState({data: {
+            ...this.state.data,
+            amount : Math.round(text)
+        }})};
+
+    handleRAmount = (text) => {
+        this.calculateDateWithAmountPerMonth(text)
+    };
+
+    handleRDate = (text) => {
+        this.calculateAmountWithDate(text)
+    };
+
+    static navigationOptions = ({ navigation }) => {
+        const { state } = navigation;
+
+        return {
+            title: (state.params && state.params.title ? state.params.title : 'Ajouter un projet')
+        };
+    };
+
   render() {
-      
+      var button = (this.state.data.id != 0) ? "Modifier ce projet" : "Ajouter un projet";
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
-          <View style={GlobalStyles.TopTitle}>
-              <Text  style={GlobalStyles.TopTextTitle}>édition de projets</Text>
-          </View>
           <View style={GlobalStyles.container}>
-              <View>
-                 <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20, marginTop : 50, marginBottom : 50}}>Ajouter un projet</Text>
-              </View>
+              <View style={{flexDirection: 'column', flex: 1}}>
+                  {(this.state.loading) ? (
+                      <Loading loading={this.state.loading} />
+                  ) : (
+                      <View >
+                          <View style={[{marginTop: 30},styles.boxes]}>
+                              <View  style={{flexDirection: 'row', alignItems: 'center'}}>
+                                  <Text style={{fontWeight: 'bold'}}>Nom du projet :        </Text>
+                                  <TextInput
+                                      placeholder={(this.state.data.name != null) ? this.state.data.name : 'Macbook 15' }
+                                      value={this.state.data.name}
+                                      maxLength={20}
+                                      onChangeText={this.handleAccountName}
+                                  />
 
-              <View style={{flexDirection : 'row', marginBottom : 20}} >
-                      <View style={{flex: 4, marginLeft : 40}}>
-                        <TextInput
-                          style={{height: 40, borderColor: 'gray', borderBottomWidth: 1}}
-                          // onChangeText={(text) => this.setState({text})}
-                          // value={this.state.text}
-                          placeholder={'ex : Moto BMW S1000R'}
-                        />
-                      </View>
-                      <View style={{flex: 3, marginLeft : 40, marginRight: 40}}>
-                        <TextInput
-                          style={{height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'right'}}
-                          // onChangeText={(text) => this.setState({text})}
-                          // value={this.state.text}
-                          placeholder={'600.00 €'}
-                        />
-                      </View>
-           
-                    </View>
-                    <View style={{flexDirection : 'row', marginBottom : 20}} >
-                    <DatePicker
-                        style={{width: 200}}
-                        date={this.state.date}
-                        mode="date"
-                        placeholder="select date"
-                        format="YYYY-MM-DD"
-                        minDate="2016-05-01"
-                        maxDate="2016-06-01"
-                        confirmBtnText="Confirm"
-                        cancelBtnText="Cancel"
-                        customStyles={{
-                        dateIcon: {
-                            position: 'absolute',
-                            left: 0,
-                            top: 4,
-                            marginLeft: 0
-                        },
-                        dateInput: {
-                            marginLeft: 36
-                        }
-                        // ... You can check the source to find the other keys.
-                        }}
-                        onDateChange={(date) => {this.setState({date: date})}}
-                    />
-                    </View>
-              <View style={{alignItems : 'center'}}>
-                {/* <View style={{backgroundColor : '#00897B', borderRadius : 10 , width : '30%', padding : 10}}>
-                    <Button
-                        onPress={console.log()}
-                        title="Valider"
-                        color="white"
-                    />
-                </View> */}
-              </View>
-              <View>
-                 <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20, marginTop : 30, marginBottom : 30}}>Modifier un compte</Text>
-              </View>
-              <View style={{marginBottom: 30}}>
-                <Picker
-                  // selectedValue={this.state.language}
-                  style={{height: 50, width: '100%', top : -65}}
-                  // onValueChange={(itemValue, itemIndex) =>
-                  //   this.setState({language: itemValue})}
-                  >
-                </Picker>
-              </View>
-              <View style={{justifyContent : 'center', marginTop : 40}}>
-              <View style={{alignItems : 'center', marginBottom : 20}}>
-                  <View style={{}}>
-                    <RadioForm
-                        radio_props={accountType}
-                        formHorizontal={false}
-                        animation={true}
-                        initial={0}
-                        onPress={(value) => {}}
-                    />
-                  </View>
-              </View>
-              <FlatList data={AccountPlaceHolder}
-                  renderItem={({item}) =>
-                    
-                    <View style={{flexDirection : 'row'}} >
-                      <View style={{flex: 4, marginLeft : 40}}>
-                        <TextInput
-                          style={{height: 40, borderColor: 'gray', borderBottomWidth: 1}}
-                          // onChangeText={(text) => this.setState({text})}
-                          // value={this.state.text}
-                          placeholder={'ex : Société générale'}
+                              </View>
 
-                        />
+
+                          </View>
+                          <View style={[{flexDirection: 'row'},styles.boxes]}>
+                              <View>
+                                  <Text style={{fontWeight: 'bold'}}>Montant :      </Text>
+                              </View>
+                              <View>
+                                  <TextInput
+                                      maxLength={5}
+                                      placeholder={'3000 €'}
+                                      keyboardType={'number-pad'}
+                                      value={this.state.data.amount.toString()}
+                                      onChangeText={this.handleAmount}
+                                  />
+                              </View>
+                          </View>
+                          <View style={[{width: 300, alignSelf: 'center'},styles.boxes]}>
+                              <SegmentedControlTab
+                                  values={["Mensualité", "Date"]}
+                                  selectedIndex={this.state.selectedIndex}
+                                  onTabPress={this.handleIndexChange}
+                              />
+                          </View>
+                          {(this.state.selectedIndex == 0) ? (
+                              <View style={[{flexDirection: 'row'},styles.boxes]}>
+                                  <View style={{marginRight: 10}}>
+                                      {myIcon}
+                                  </View>
+                                  <View>
+                                      <TextInput
+                                          maxLength={5}
+                                          placeholder={'choisir un montant'}
+                                          keyboardType={'number-pad'}
+                                          value={this.state.data.amount_per_month.toString()}
+                                          onChangeText={this.handleRAmount}
+                                          style={{borderWidth: 0.5, borderRadius: 5, padding: 10, borderColor: '#d8d4d4', width: 160, textAlign: 'center'}}
+                                      />
+                                  </View>
+
+                              </View>
+                          ) : (
+                              <View style={[{flexDirection: 'row'},styles.boxes]}>
+                                  <View>
+                                      <DatePicker
+                                          locale={'fr'}
+                                          style={{width: 200, height: 30}}
+                                          date={this.state.data.date}
+                                          mode="date"
+                                          placeholder={'choisir une date'}
+                                          format="YYYY-MM-DD"
+                                          minDate={moment().format('YYYY-MM-DD')}
+                                          maxDate={moment().add(30, 'years').format('YYYY-MM-DD')}
+                                          confirmBtnText="Confirm"
+                                          cancelBtnText="Cancel"
+                                          customStyles={{
+                                              dateIcon: {
+                                                  position: 'absolute',
+                                                  left: 0,
+                                                  top: 4,
+                                                  marginLeft: 0
+                                              },
+                                              dateInput: {
+                                                  marginLeft: 36
+                                              }
+                                              // ... You can check the source to find the other keys.
+                                          }}
+                                          onDateChange={this.handleRDate}
+                                      />
+                                  </View>
+                              </View>
+                          )}
+
+                          <View style={{marginTop: 20}}>
+                              <Button
+                                  title={button}
+                                  color="#00897B"
+                                  onPress={() => this.Transaction()}
+                              />
+                              {(this.state.data.id != 0) ? (
+                                  <View>
+                                      <Button
+                                          title="Supprimer ce projet"
+                                          color="red"
+                                          onPress={() => {
+                                              Alert.alert(
+                                                  'Confirmation',
+                                                  'Voulez-vous vraiment supprimer ce projet ?',
+                                                  [
+                                                      {
+                                                          text: 'Non',
+                                                          style: 'cancel',
+                                                      },
+                                                      {text: 'Oui', onPress: () => {
+                                                              sql.delete("projects", {
+                                                                  id: this.state.data.id
+                                                              });
+                                                              this.props.navigation.navigate("Projects", { updated: true});
+                                                          }},
+                                                  ],
+                                                  {cancelable: false},
+                                              );
+                                          }}
+                                      />
+                                  </View>
+                              ): (
+                                  false
+                              )}
+                          </View>
                       </View>
-                      <View style={{flex: 3, marginLeft : 40}}>
-                        <TextInput
-                          style={{height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'right'}}
-                          // onChangeText={(text) => this.setState({text})}
-                          // value={this.state.text}
-                          
-                        />
-                      </View>
-                      <View style={{flex : 2}}>
-                        <Button
-                          onPress={console.log()}
-                          title="&#10008;"
-                          color="#cc0001"
-                          accessibilityLabel="Learn more about this purple button"
-                        />
-                      </View>
-                    </View>
-              } />
+                  )}
               </View>
-          
-              
           </View>
-          <View style={{}}>
-                <Button
-                  onPress={console.log()}
-                  title="Confirmer les modifications"
-                  color="#cc0001"
-                  accessibilityLabel="Learn more about this purple button"
-                />
-              </View>
         {/* Rest of the app comes ABOVE the action button component !*/}
       </SafeAreaView>
     );
@@ -159,6 +286,7 @@ export class ProjectsEdit extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  titles : {textTransform : 'uppercase', textAlign : 'center'},
-  inputs : {margin : 20, height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'center'}
+    titles : {textTransform : 'uppercase', textAlign : 'center'},
+    inputs : {margin : 20, height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'center'},
+    boxes : {height: 50, alignItems: 'center', justifyContent: 'center', marginBottom: 30}
 })
