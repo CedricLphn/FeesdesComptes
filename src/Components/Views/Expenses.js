@@ -1,5 +1,5 @@
 import React from 'react';
-import {Platform, SafeAreaView, StyleSheet, Text, View, FlatList, Image} from 'react-native';
+import {Platform, SafeAreaView, StyleSheet, Text, View, FlatList, Image, TouchableOpacity} from 'react-native';
 import ActionButton from 'react-native-action-button';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
@@ -62,7 +62,7 @@ export class Expenses extends React.Component {
 
   render() {
     const list = this.state.accountId.map((accountId, key) => {
-      return <ExpensesAccount key={key} accountId={accountId} />
+      return <ExpensesAccount key={key} accountId={accountId} onPress={() => this.navigateForEdit(accountId)} />
     });
     const { accountId } = this.state;
 
@@ -91,6 +91,13 @@ export class Expenses extends React.Component {
           </SafeAreaView>
       );
     }
+  }
+
+  navigateForEdit(accountId) {
+    this.props.navigation.navigate("Settings", {
+      id : accountId,
+      title: "Modifier des charges"
+    })
   }
 }
 

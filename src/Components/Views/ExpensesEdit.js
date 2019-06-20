@@ -11,28 +11,22 @@ export class ExpensesEdit extends React.Component {
 
     state = {
         accounts: [],
-        selectAccount: 1
+        selectAccount: 1,
+        isEdit : false
     };
 
     constructor(props) {
         super(props);
 
+
+
         this.onExpensesUpdate.bind(this);
     }
 
     componentDidMount() {
-        sql.transaction(
-          tx => {
-            tx.executeSql(`SELECT * from accounts`, [], (_, { rows }) => {
-              this.setState({
-                  accounts : rows._array
-              })
+        console.log("Hello");
+        this.getExpensesOnAccount();
 
-                console.log(rows._array);
-
-            })
-          }
-        );
     }
 
 
@@ -42,6 +36,28 @@ export class ExpensesEdit extends React.Component {
         })
 
         console.log("EXPENSESEDIT NEW STATE", event);
+    }
+
+    setQuery() {
+        const {isEdit, selectAccount, expenses} = this.state;
+
+        if(isEdit) {
+            sql.delete("expenses", {
+                "account_id": selectAccount
+            })
+        }
+
+        if(expenses) {
+            expenses.map((expense, index) => {
+                sql.insert("expenses", {
+                    name : expense.name,
+                    type : selectAccount,
+                    amount : expense.amount
+                });
+            });
+        }
+
+
     }
 
     render() {
@@ -80,12 +96,11 @@ export class ExpensesEdit extends React.Component {
           </View>
           <View style={{}}>
                 <Button
-                  onPress={() => console.log()}
+                  onPress={this.setQuery.bind(this)}
                   title="Confirmer les modifications"
                   color="#cc0001"
                 />
               </View>
-        {/* Rest of the app comes ABOVE the action button component !*/}
       </SafeAreaView>
     );
   }
@@ -102,5 +117,20 @@ export class ExpensesEdit extends React.Component {
             }
         })
 
+    }
+
+    getExpensesOnAccount() {
+        sql.transaction(
+            tx => {
+                tx.executeSql(`SELECT * from accounts`, [], (_, { rows }) => {
+                    this.setState({
+                        accounts : rows._array
+                    })
+
+                    console.log(rows._array);
+
+                })
+            }
+        );
     }
 }

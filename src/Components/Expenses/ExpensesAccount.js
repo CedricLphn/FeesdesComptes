@@ -1,5 +1,5 @@
 import React, {Component} from "react";
-import {StyleSheet, Text, View} from "react-native";
+import {StyleSheet, Text, View, TouchableOpacity} from "react-native";
 import SQL from "../../Helpers/API/sql";
 
 const sql = new SQL();
@@ -40,7 +40,7 @@ export class ExpensesAccount extends Component {
         const data = this.state.data.map((expense, key) => {
            return (
 
-               <View key={key} style={{flexDirection : "row"}}>
+               <View key={key} style={{flexDirection : "row"}} >
                      <View style={styles.boxExpense}>
                          <Text style={styles.expenseName}>{expense.name}</Text>
                      </View>
@@ -53,7 +53,7 @@ export class ExpensesAccount extends Component {
 
 
       return(
-          <View>
+          <TouchableOpacity  onPress={() => this.sendId(this.props.accountId)}>
           {(this.state.data.length > 0) ? (
               <View style={styles.boxAccountExpenses}>
                   <View style={styles.boxAccountName}>
@@ -62,9 +62,13 @@ export class ExpensesAccount extends Component {
                   {data}
               </View>
           ) : (<View/>) }
-          </View>
+          </TouchableOpacity>
       )
 
+    }
+
+    sendId(id) {
+        this.props.onPress(id);
     }
 }
 
