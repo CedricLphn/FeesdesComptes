@@ -19,6 +19,13 @@ export class ExpensesAccount extends Component {
         this.query(this.props.accountId);
     }
 
+    componentWillReceiveProps(nextProps, nextContext) {
+        if(this.props.update) {
+            this.query(this.props.accountId);
+
+        }
+    }
+
     query(accountId) {
         if(accountId != 0) {
             sql.transaction(
@@ -27,14 +34,11 @@ export class ExpensesAccount extends Component {
                 LEFT JOIN accounts ON expenses.account_id = accounts.id 
                 WHERE account_id = ${accountId}
         `, [], (_, { rows }) => {
-                        if(!rows._array) {
                             console.log("NAAAAAAAAAME : ",rows._array[0].accountName)
                             let account_Name = (rows._array[0].accountName !== undefined) ? rows._array[0].accountName : '';
                             this.setState({data : rows._array,
                                 accountName: account_Name});
                             console.log("== expenses data", rows._array);
-                        }
-
                     })
                 }
             );

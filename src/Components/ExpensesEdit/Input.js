@@ -1,5 +1,9 @@
 import React, {Component} from "react";
 import {Button, TextInput, View} from "react-native";
+import SQL from "../../Helpers/API/sql";
+
+const sql = new SQL();
+
 
 export class Input extends Component {
 

@@ -14,8 +14,13 @@ export class Expenses extends React.Component {
 
   state = {
     loading : true,
+    updated: false,
     accountId: []
   };
+
+  componentWillReceiveProps() {
+    this.setState({updated: true});
+  }p
 
   componentDidMount() {
     // sql.transaction(
@@ -35,36 +40,37 @@ export class Expenses extends React.Component {
     FOREIGN KEY("account_id") REFERENCES "accounts"("id") ON DELETE CASCADE`
     )
 
-
-    sql.transaction(
-      tx => {
-        tx.executeSql(`SELECT id FROM accounts
-        `, [], (_, { rows }) => {
-          let accounts = [];
-
-          let row = rows._array;
-
-          console.log(row);
-
-          for(let [key, account] of Object.entries(row)) {
-            console.log("id", account)
-            accounts.push(account.id);
-          }
-
-          this.setState({
-            loading: false,
-            accountId: accounts}
-            );
-        })
-      });
-
+    this.refresh();
 
   }
 
+  refresh() {
+    sql.transaction(
+        tx => {
+          tx.executeSql(`SELECT id FROM accounts
+        `, [], (_, { rows }) => {
+            let accounts = [];
+
+            let row = rows._array;
+
+            console.log(row);
+
+            for(let [key, account] of Object.entries(row)) {
+              console.log("id", account)
+              accounts.push(account.id);
+            }
+
+            this.setState({
+              loading: false,
+              accountId: accounts}
+            );
+          })
+        });
+  }
 
   render() {
     const list = this.state.accountId.map((accountId, key) => {
-      return <ExpensesAccount key={key} accountId={accountId} onPress={() => this.navigateForEdit(accountId)} />
+      return <ExpensesAccount update={this.state.updated} key={key} accountId={accountId} onPress={() => this.navigateForEdit(accountId)} />
     });
     const { accountId } = this.state;
 

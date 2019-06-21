@@ -24,9 +24,12 @@ export class ExpensesEdit extends React.Component {
     }
 
     componentDidMount() {
-        console.log("Hello");
         this.getExpensesOnAccount();
 
+    }
+
+    componentWillReceiveProps(nextProps, nextContext) {
+        console.log("HELLO UPDATE");
     }
 
 
@@ -55,6 +58,15 @@ export class ExpensesEdit extends React.Component {
                     amount : expense.amount
                 });
             });
+
+            sql.transaction(
+                tx => {
+                    tx.executeSql(`SELECT * FROM expenses
+        `, [], (_, { rows }) => {
+                        console.log(rows);
+                    })
+                }
+            );
 
             this.props.navigation.navigate("Expenses", { updated: true});
 
