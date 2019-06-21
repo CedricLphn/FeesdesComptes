@@ -20,50 +20,59 @@ export class ExpensesAccount extends Component {
     }
 
     query(accountId) {
-        sql.transaction(
-            tx => {
-                tx.executeSql(`SELECT expenses.*, accounts.name AS accountName FROM expenses
+        if(accountId != 0) {
+            sql.transaction(
+                tx => {
+                    tx.executeSql(`SELECT expenses.*, accounts.name AS accountName FROM expenses
                 LEFT JOIN accounts ON expenses.account_id = accounts.id 
                 WHERE account_id = ${accountId}
         `, [], (_, { rows }) => {
-                    console.log("NAAAAAAAAAME : ",rows._array[0].accountName)
-                    let account_Name = rows._array[0].accountName;
-                    this.setState({data : rows._array,
-                        accountName: account_Name});
-                    console.log("== expenses data", rows._array);
-                })
-            }
-        );
+                        if(!rows._array) {
+                            console.log("NAAAAAAAAAME : ",rows._array[0].accountName)
+                            let account_Name = (rows._array[0].accountName !== undefined) ? rows._array[0].accountName : '';
+                            this.setState({data : rows._array,
+                                accountName: account_Name});
+                            console.log("== expenses data", rows._array);
+                        }
+
+                    })
+                }
+            );
+        }
+
     }
 
     render() {
-        const data = this.state.data.map((expense, key) => {
-           return (
+        if(this.props.accountId != 0) {
+            const data = this.state.data.map((expense, key) => {
+                return (
 
-               <View key={key} style={{flexDirection : "row"}} >
-                     <View style={styles.boxExpense}>
-                         <Text style={styles.expenseName}>{expense.name}</Text>
-                     </View>
-                     <View style={styles.boxExpense}>
-                         <Text style={styles.expenseAmount}>{expense.amount} €</Text>
-                     </View>
-               </View>
-           );
-        });
+                    <View key={key} style={{flexDirection : "row"}} >
+                        <View style={styles.boxExpense}>
+                            <Text style={styles.expenseName}>{expense.name}</Text>
+                        </View>
+                        <View style={styles.boxExpense}>
+                            <Text style={styles.expenseAmount}>{expense.amount} €</Text>
+                        </View>
+                    </View>
+                );
+            });
 
 
-      return(
-          <TouchableOpacity  onPress={() => this.sendId(this.props.accountId)}>
-          {(this.state.data.length > 0) ? (
-              <View style={styles.boxAccountExpenses}>
-                  <View style={styles.boxAccountName}>
-                      <Text style={styles.accountName}>{this.state.accountName}</Text>
-                  </View>
-                  {data}
-              </View>
-          ) : (<View/>) }
-          </TouchableOpacity>
-      )
+            return(
+                <TouchableOpacity  onPress={() => this.sendId(this.props.accountId)}>
+                    {(this.state.data.length > 0) ? (
+                        <View style={styles.boxAccountExpenses}>
+                            <View style={styles.boxAccountName}>
+                                <Text style={styles.accountName}>{this.state.accountName}</Text>
+                            </View>
+                            {data}
+                        </View>
+                    ) : (<View/>) }
+                </TouchableOpacity>
+            )
+
+        }
 
     }
 

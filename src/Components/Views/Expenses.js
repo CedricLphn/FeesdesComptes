@@ -44,6 +44,8 @@ export class Expenses extends React.Component {
 
           let row = rows._array;
 
+          console.log(row);
+
           for(let [key, account] of Object.entries(row)) {
             console.log("id", account)
             accounts.push(account.id);
