@@ -14,6 +14,24 @@ export class Input extends Component {
 
     };
 
+    componentDidMount() {
+        if(this.props.data !== false) {
+            sql.transaction(
+                tx => {
+                    tx.executeSql('select * from expenses where account_id=?', [this.props.data], (_, { rows }) => {
+                            this.setState({
+                                expenses : rows._array
+                            });
+
+                        }
+                    );
+                }
+
+            );
+        }
+    }
+
+
     render() {
         const input = this.state.expenses.map((input, key) => {
             return(

@@ -35,11 +35,14 @@ export class Accounts extends React.Component {
   }
 
   refresh() {
+
+
     console.log(sql.createTable("accounts", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
     sql.transaction(
       tx => {
         tx.executeSql('select * from accounts', [], (_, { rows }) => {
-          console.log(rows._array);
+          console.log("trransaction : ", rows._array);
+
           this.setState({ 
             data : rows._array,
             length : rows.length,

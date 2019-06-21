@@ -11,8 +11,8 @@ export class ExpensesEdit extends React.Component {
 
     state = {
         accounts: [],
-        selectAccount: 1,
-        isEdit : false
+        selectAccount: this.props.navigation.getParam("id", 1),
+        isEdit : this.props.navigation.getParam("id", false)
     };
 
     constructor(props) {
@@ -51,10 +51,15 @@ export class ExpensesEdit extends React.Component {
             expenses.map((expense, index) => {
                 sql.insert("expenses", {
                     name : expense.name,
-                    type : selectAccount,
+                    account_id : selectAccount,
                     amount : expense.amount
                 });
             });
+
+            this.props.navigation.navigate("Expenses", { updated: true});
+
+        }else {
+            alert("Ajouter au moins une charge.")
         }
 
 
@@ -91,7 +96,7 @@ export class ExpensesEdit extends React.Component {
               <View style={{marginTop: 90, marginBottom: 30}}>
               <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20}}>Nouvelle charge</Text>
               </View>
-                <Input onChange={(e) => this.onExpensesUpdate(e)} />
+                <Input data={this.state.isEdit} onChange={(e) => this.onExpensesUpdate(e)} />
             </View>
           </View>
           <View style={{}}>
@@ -120,17 +125,33 @@ export class ExpensesEdit extends React.Component {
     }
 
     getExpensesOnAccount() {
-        sql.transaction(
-            tx => {
-                tx.executeSql(`SELECT * from accounts`, [], (_, { rows }) => {
-                    this.setState({
-                        accounts : rows._array
+        if(this.state.isEdit) {
+            sql.transaction(
+                tx => {
+                    tx.executeSql(`SELECT * from accounts WHERE id=${this.state.isEdit}`, [], (_, { rows }) => {
+                        this.setState({
+                            accounts : rows._array
+                        })
+
+                        console.log(rows._array);
+
                     })
+                }
+            );
+        }else {
+            sql.transaction(
+                tx => {
+                    tx.executeSql(`SELECT * from accounts`, [], (_, { rows }) => {
+                        this.setState({
+                            accounts : rows._array
+                        })
 
-                    console.log(rows._array);
+                        console.log(rows._array);
 
-                })
-            }
-        );
+                    })
+                }
+            );
+        }
+
     }
 }
