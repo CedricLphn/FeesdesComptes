@@ -1,5 +1,5 @@
 import React from 'react';
-import { Alert, Platform, SafeAreaView, Text, View, StyleSheet, TextInput, Button } from 'react-native';
+import {Alert, Platform, SafeAreaView, Text, View, StyleSheet, TextInput, Button, TouchableOpacity} from 'react-native';
 
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
@@ -8,6 +8,11 @@ import SegmentedControlTab from "react-native-segmented-control-tab";
 
 import SQL from '../../Helpers/API/sql';
 import Loading from '../Loading';
+
+import IconV from 'react-native-vector-icons/FontAwesome'
+const euroIcon = <IconV name="euro" size={25} color="#ff9800" />;
+import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
+
 
 const sql = new SQL();
 
@@ -30,7 +35,7 @@ export class AccountsEdit extends React.Component {
     
     this.state = {
         data : data,
-        selectedIndex : 0,
+        selectedIndex : 1,
         loading: (data.id > 0) ? true: false,
     }
     
@@ -121,40 +126,50 @@ export class AccountsEdit extends React.Component {
                 <Loading loading={this.state.loading} />
              ) : (
             <View >
-                <View style={styles.boxes}>
-                    <View  style={{flexDirection: 'row', alignItems: 'center'}}>
-                    <Text>Nom du compte : </Text>
-                    <TextInput
-                            // value={this.state.text}
-                            placeholder={'ex : Société générale'}
-                            value={this.state.data.name}
-                            onChangeText={this.handleAccountName}
-                    />
-                    </View>
-                   
-                </View>
-                <View style={[{width: 300, alignSelf: 'center'},styles.boxes]}>
-                    <SegmentedControlTab
-                    values={["Compte Epargne", "Compte Courant"]}
-                    selectedIndex={this.state.selectedIndex}
-                    onTabPress={this.handleIndexChange}
-                    />
-                </View>
-                <View style={[{flexDirection: 'row'},styles.boxes]}>
-                    <View>
-                    <Text>Montant du compte : </Text>
-                    </View>
-                    <View>
-                    <TextInput
-                            // onChangeText={(text) => this.setState({text})}
-                            // value={this.state.text}
-                            placeholder={'2500 €'}
-                            keyboardType={'numeric'}
-                            value={this.state.data.amount.toString()}
-                            onChangeText={this.handleAmount}
-                    />
-                    </View>
-                </View>
+
+
+                <Card style={{borderRadius: '5px', padding : 25}}>
+                    <CardItem style={{}}>
+                        <View style={{flex: 1, alignItems: 'center'}}>
+                            <TextInput
+                                style={{fontSize: 25}}
+                                placeholder={'Nom du compte'}
+                                value={this.state.data.name}
+                                onChangeText={this.handleAccountName}
+                            />
+                        </View>
+                    </CardItem>
+
+                </Card>
+                <Card style={{borderRadius: '5px', padding : 40}}>
+                    <CardItem style={{}}>
+                        <View style={{flex: 1, alignItems: 'center'}}>
+                            <SegmentedControlTab
+                                values={["Compte épargne", "Compte courant"]}
+                                selectedIndex={this.state.selectedIndex}
+                                onTabPress={this.handleIndexChange}
+                            />
+                        </View>
+                    </CardItem>
+
+                </Card>
+                <Card style={{borderRadius: '5px', padding : 15}}>
+                    <CardItem style={{}}>
+                        <View style={{flex: 1, justifyContent: 'center', flexDirection : 'row'}}>
+                            <TextInput
+                                // onChangeText={(text) => this.setState({text})}
+                                // value={this.state.text}
+                                style={{fontSize: 20, marginRight: 10, color: '#ff9800'}}
+                                placeholder={'Montant du compte'}
+                                keyboardType={'numeric'}
+                                value={this.state.data.amount.toString()}
+                                onChangeText={this.handleAmount}
+                            />
+                            {euroIcon}
+                        </View>
+                    </CardItem>
+
+                </Card>
                 <View style={{marginTop: 20}}>
                     <Button
                     title={button}

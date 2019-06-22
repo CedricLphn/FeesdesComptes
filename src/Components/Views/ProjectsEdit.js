@@ -8,6 +8,7 @@ import Loading from "../Loading";
 import SegmentedControlTab from "react-native-segmented-control-tab";
 import moment from "moment";
 import SQL from '../../Helpers/API/sql';
+import {Card, CardItem} from "native-base";
 
 const sql = new SQL();
 const myIcon = <Icon name="money" size={30} color="#900" />;
@@ -154,90 +155,109 @@ export class ProjectsEdit extends React.Component {
                   {(this.state.loading) ? (
                       <Loading loading={this.state.loading} />
                   ) : (
+
                       <View >
-                          <View style={[{marginTop: 30},styles.boxes]}>
-                              <View  style={{flexDirection: 'row', alignItems: 'center'}}>
-                                  <Text style={{fontWeight: 'bold'}}>Nom du projet :        </Text>
-                                  <TextInput
-                                      placeholder={(this.state.data.name != null) ? this.state.data.name : 'Macbook 15' }
-                                      value={this.state.data.name}
-                                      maxLength={20}
-                                      onChangeText={this.handleAccountName}
-                                  />
 
-                              </View>
-
-
-                          </View>
-                          <View style={[{flexDirection: 'row'},styles.boxes]}>
-                              <View>
-                                  <Text style={{fontWeight: 'bold'}}>Montant :      </Text>
-                              </View>
-                              <View>
-                                  <TextInput
-                                      maxLength={5}
-                                      placeholder={'3000 €'}
-                                      keyboardType={'number-pad'}
-                                      value={this.state.data.amount.toString()}
-                                      onChangeText={this.handleAmount}
-                                  />
-                              </View>
-                          </View>
-                          <View style={[{width: 300, alignSelf: 'center'},styles.boxes]}>
-                              <SegmentedControlTab
-                                  values={["Mensualité", "Date"]}
-                                  selectedIndex={this.state.selectedIndex}
-                                  onTabPress={this.handleIndexChange}
-                              />
-                          </View>
-                          {(this.state.selectedIndex == 0) ? (
-                              <View style={[{flexDirection: 'row'},styles.boxes]}>
-                                  <View style={{marginRight: 10}}>
-                                      {myIcon}
+                          <Card style={{borderRadius: '5px', padding : 25}}>
+                              <CardItem style={{}}>
+                                  <View style={{flex: 1, alignItems: 'center'}}>
+                                      <TextInput
+                                          placeholder={(this.state.data.name != null) ? this.state.data.name : 'MacBook 15' }
+                                          value={this.state.data.name}
+                                          maxLength={20}
+                                          onChangeText={this.handleAccountName}
+                                          style={{fontSize: 30, textAlign: 'center'}}
+                                      />
                                   </View>
-                                  <View>
+                              </CardItem>
+
+                          </Card>
+
+                          <Card style={{borderRadius: '5px', padding : 15}}>
+                              <CardItem style={{}}>
+                                  <View style={{flex: 1, alignItems: 'center'}}>
                                       <TextInput
                                           maxLength={5}
-                                          placeholder={'choisir un montant'}
+                                          placeholder={'3000 €'}
                                           keyboardType={'number-pad'}
-                                          value={this.state.data.amount_per_month.toString()}
-                                          onChangeText={this.handleRAmount}
-                                          style={{borderWidth: 0.5, borderRadius: 5, padding: 10, borderColor: '#d8d4d4', width: 160, textAlign: 'center'}}
+                                          value={this.state.data.amount.toString()}
+                                          onChangeText={this.handleAmount}
+                                          style={{fontSize: 20, textAlign: 'center'}}
                                       />
                                   </View>
+                              </CardItem>
 
-                              </View>
-                          ) : (
-                              <View style={[{flexDirection: 'row'},styles.boxes]}>
-                                  <View>
-                                      <DatePicker
-                                          locale={'fr'}
-                                          style={{width: 200, height: 30}}
-                                          date={this.state.data.date}
-                                          mode="date"
-                                          placeholder={'choisir une date'}
-                                          format="YYYY-MM-DD"
-                                          minDate={moment().format('YYYY-MM-DD')}
-                                          maxDate={moment().add(30, 'years').format('YYYY-MM-DD')}
-                                          confirmBtnText="Confirm"
-                                          cancelBtnText="Cancel"
-                                          customStyles={{
-                                              dateIcon: {
-                                                  position: 'absolute',
-                                                  left: 0,
-                                                  top: 4,
-                                                  marginLeft: 0
-                                              },
-                                              dateInput: {
-                                                  marginLeft: 36
-                                              }
-                                              // ... You can check the source to find the other keys.
-                                          }}
-                                          onDateChange={this.handleRDate}
+                          </Card>
+
+                          <Card style={{borderRadius: '5px', padding : 40}}>
+                              <CardItem style={{}}>
+                                  <View style={{flex: 1, alignItems: 'center'}}>
+                                      <SegmentedControlTab
+                                          values={["Mensualité", "Date"]}
+                                          selectedIndex={this.state.selectedIndex}
+                                          onTabPress={this.handleIndexChange}
                                       />
                                   </View>
-                              </View>
+                              </CardItem>
+                          </Card>
+                          {(this.state.selectedIndex == 0) ? (
+                              <Card style={{borderRadius: '5px', padding : 15}}>
+                                  <CardItem style={{}}>
+                                      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',flexDirection  :'row'}}>
+                                      <View style={{marginRight: 10}}>
+                                          {myIcon}
+                                      </View>
+                                      <View>
+                                          <TextInput
+                                              maxLength={5}
+                                              placeholder={'choisir un montant'}
+                                              keyboardType={'number-pad'}
+                                              value={this.state.data.amount_per_month.toString()}
+                                              onChangeText={this.handleRAmount}
+                                              style={{borderWidth: 0.5, borderRadius: 5, padding: 10, borderColor: '#d8d4d4', width: 160, textAlign: 'center'}}
+                                          />
+                                      </View>
+                                      </View>
+                                  </CardItem>
+
+                              </Card>
+
+                          ) : (
+
+                              <Card style={{borderRadius: '5px', padding : 15}}>
+                                  <CardItem style={{}}>
+                                      <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',flexDirection  :'row', marginBottom: 8}}>
+                                          <DatePicker
+                                              locale={'fr'}
+                                              style={{width: 200, height: 30}}
+                                              date={this.state.data.date}
+                                              mode="date"
+                                              placeholder={'choisir une date'}
+                                              format="YYYY-MM-DD"
+                                              minDate={moment().format('YYYY-MM-DD')}
+                                              maxDate={moment().add(30, 'years').format('YYYY-MM-DD')}
+                                              confirmBtnText="Confirm"
+                                              cancelBtnText="Cancel"
+                                              customStyles={{
+                                                  dateIcon: {
+                                                      position: 'absolute',
+                                                      left: 0,
+                                                      top: 4,
+                                                      marginLeft: 0
+                                                  },
+                                                  dateInput: {
+                                                      marginLeft: 36
+                                                  }
+                                                  // ... You can check the source to find the other keys.
+                                              }}
+                                              onDateChange={this.handleRDate}
+                                          />
+                                      </View>
+                                  </CardItem>
+
+                              </Card>
                           )}
+
 
                           <View style={{marginTop: 20}}>
                               <Button
