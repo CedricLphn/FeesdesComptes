@@ -1,5 +1,5 @@
 import React from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View, Picker , TextInput, Button, FlatList } from 'react-native';
+import {Platform, SafeAreaView, StyleSheet, Text, View, Picker, TextInput, Button, FlatList, Alert} from 'react-native';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import SQL from "../../Helpers/API/sql";
@@ -108,6 +108,28 @@ export class ExpensesEdit extends React.Component {
                   color="#cc0001"
                 />
               </View>
+          <View style={{}}>
+              <Button
+                  onPress={() => {
+                      Alert.alert(
+                          'Confirmation',
+                          'Voulez-vous vraiment supprimer les charges de ce compte ?',
+                          [
+                              {
+                                  text: 'Non',
+                                  style: 'cancel',
+                              },
+                              {text: 'Oui', onPress: () => {
+                                      this.deleteExpenses();
+                                  }},
+                          ],
+                          {cancelable: false},
+                      );
+                  }}
+                  title="Supprimer toute les charges"
+                  color="#cc0001"
+              />
+          </View>
       </SafeAreaView>
     );
   }
@@ -154,6 +176,14 @@ export class ExpensesEdit extends React.Component {
                 }
             );
         }
+
+    }
+
+    deleteExpenses() {
+        sql.delete("expenses", {
+            account_id : this.state.selectAccount
+        });
+        this.props.navigation.navigate("Expenses", { updated: true});
 
     }
 }
