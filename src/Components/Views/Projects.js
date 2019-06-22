@@ -5,6 +5,7 @@ import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import SQL from '../../Helpers/API/sql';
 import Loading from '../Loading';
 import IconV from 'react-native-vector-icons/FontAwesome'
+import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
 
 const sql = new SQL();
 const euroIcon = <IconV name="euro" size={40} color="#9b1f1f" />;
@@ -34,6 +35,7 @@ export class Projects extends React.Component {
     refresh() {
 
         // IF CHANGEMENT ON TABLE FIELDS UNCOMMENT ONE TIME BELOW
+
         // sql.transaction(
         //     tx => {
         //         tx.executeSql('DROP TABLE projects', [], (_, {rows}) => {
@@ -80,16 +82,21 @@ export class Projects extends React.Component {
                             title: "Modifier un projet"
                         })
                     }}>
-                        <View style={[styles.miniBoxes, {marginBottom: 70}]}>
-                            <Text style={{fontSize: 30, textTransform: 'uppercase', fontWeight: 'bold', width: 180, height: 80, fontStyle: 'italic'}}>{item.name}</Text>
-                            <Text style={{height: 40, fontSize: 40, color: '#706b64'}}>{item.amount} {euroIcon}</Text>
+                        <Card style={{borderRadius: '5px', padding : 10}}>
+                            <CardItem header>
+                                <Text style={{fontSize: 30, width: '70%', textAlign: 'left', padding : 10, textTransform: 'uppercase', fontWeight: 'bold'}}>{item.name}</Text>
+                                <Text style={{fontSize: 28, width: '30%', textAlign: 'right'}}>{item.amount_per_month}  {moneyIcon}</Text>
+                            </CardItem>
+                            <CardItem style={{}}>
+                                <Text style={{fontSize: 40, width: '100%', textAlign: 'center' , color:"#9b1f1f"}}>{item.amount} {euroIcon}</Text>
 
-
-                        </View>
-                        <View style={[styles.miniBoxes, {}]}>
-                            <Text style={{height: 50, fontSize: 30, color: '#706b64'}}>{moneyIcon}  {item.amount_per_month}</Text>
-                            <Text style={{height: 50, fontSize: 20, color: '#706b64'}}>{item.date}   {dateIcon}</Text>
-                        </View>
+                            </CardItem>
+                            <CardItem footer>
+                                <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row', marginBottom: 20, marginTop: 20}}>
+                                    <Text style={{fontSize: 20, color : '#00897B'}}>{item.date}   {dateIcon}</Text>
+                                </View>
+                            </CardItem>
+                        </Card>
                     </TouchableOpacity>
                     } />
       ) : (
@@ -109,12 +116,11 @@ export class Projects extends React.Component {
 
 const styles = StyleSheet.create({
   Box : {
-  backgroundColor : "#f4f4f4",
-  flexDirection : "column",
-  height: 180,
-      marginTop: 1,
-      marginBottom: 1,
-  padding: 20
+      flexDirection : "column",
+      height: 270,
+      marginLeft: 4,
+      marginRight: 4,
+
   },
   centering: {
   flex: 1,

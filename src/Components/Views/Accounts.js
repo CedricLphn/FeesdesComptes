@@ -3,9 +3,12 @@ import { Image, Platform, SafeAreaView, StyleSheet, Text, View, FlatList, Toucha
 import ActionButton from 'react-native-action-button';
 import Icon from 'react-native-vector-icons/Ionicons';
 import AccountsEdit from '../Views/AccountsEdit';
+import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
+import IconV from 'react-native-vector-icons/FontAwesome'
+const euroIcon = <IconV name="euro" size={20} color="#ff9800" />;
 
 import SQL from '../../Helpers/API/sql';
 import Loading from '../Loading';
@@ -55,6 +58,31 @@ export class Accounts extends React.Component {
     );
   }
 
+  switchColor(type) {
+    var color = '';
+    if(type == '0'){
+      return(
+          <Body style={{flex: 1, justifyContent: 'center', flexDirection: 'row', borderWidth: 1, borderRadius: 5, backgroundColor: '#2196f3', borderColor: 'white'}}>
+            <Text style={{padding: 15, color: 'white'}}>
+              {"Compte épargne"}
+            </Text>
+          </Body>
+          )
+
+    }
+    else
+    {
+      return (
+          <Body style={{flex: 1, justifyContent: 'center', flexDirection: 'row', borderWidth: 1, borderRadius: 5, backgroundColor: '#4caf50', borderColor: 'white'}}>
+            <Text style={{padding: 15, color: 'white'}}>
+              {"Compte courant"}
+            </Text>
+          </Body>
+          )
+
+    }
+  }
+
   render() {
 
     return (
@@ -71,15 +99,20 @@ export class Accounts extends React.Component {
                 title: "Modifier un compte"
               })
             }}>
-            <View> 
-                <Text style={styles.AccountTitle}>{item.name}</Text>
-            </View>
-            <View>
-                <Text>{(item.type == 0) ? "Compte épargne": "Compte Courant"}</Text>
-            </View>
-            <View style={styles.AccountAmount}>
-                <Text style={styles.AccountAmount}>{item.amount} €</Text>
-            </View>
+                <Card style={{borderRadius: '5px', padding : 10}}>
+                  <CardItem header>
+                    <Text style={{fontSize: 24}}>{item.name}</Text>
+                  </CardItem>
+                  <CardItem style={{width: '50%', alignSelf: 'center'}}>
+                    {this.switchColor(item.type)}
+                  </CardItem>
+                  <CardItem footer>
+                    <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
+                      <Text style={{fontSize: 20, color : '#ff9800'}}>{item.amount} {euroIcon}</Text>
+                    </View>
+                  </CardItem>
+                </Card>
+
         </TouchableOpacity>
               } />
             ) : (
@@ -99,24 +132,11 @@ export class Accounts extends React.Component {
 
 const styles = StyleSheet.create({
   BoxAccount : {
-    backgroundColor : "#E5E5E5",
     flexDirection : "column",
-    height: 120,
-    margin: 20,
-    padding: 10,
-    paddingBottom: 0,
-    paddingLeft: 0,
-  },
-  AccountTitle: {
-    fontSize: 18
-  },
-  AccountAmount: {
-    fontSize: 30,
-    position: 'absolute',
-    bottom:3,
-    textAlign: "right",
-    alignSelf: 'flex-end',
-    paddingRight: 10
+    height: 200,
+    marginLeft: 4,
+    marginRight: 4,
+
   },
   centering: {
     flex: 1,

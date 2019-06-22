@@ -3,7 +3,7 @@ import { StyleSheet, Platform } from "react-native";
 export default StyleSheet.create({
     App: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#e5e5e5',
         paddingTop: Platform.OS === 'android' ? 25 : 0
       },
       actionButtonIcon: {
