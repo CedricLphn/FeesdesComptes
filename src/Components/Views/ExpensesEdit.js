@@ -108,28 +108,33 @@ export class ExpensesEdit extends React.Component {
                   color="#cc0001"
                 />
               </View>
-          <View style={{}}>
-              <Button
-                  onPress={() => {
-                      Alert.alert(
-                          'Confirmation',
-                          'Voulez-vous vraiment supprimer les charges de ce compte ?',
-                          [
-                              {
-                                  text: 'Non',
-                                  style: 'cancel',
-                              },
-                              {text: 'Oui', onPress: () => {
-                                      this.deleteExpenses();
-                                  }},
-                          ],
-                          {cancelable: false},
-                      );
-                  }}
-                  title="Supprimer toute les charges"
-                  color="#cc0001"
-              />
-          </View>
+          {(this.state.isEdit) ? (
+              <View style={{}}>
+                  <Button
+                      onPress={() => {
+                          Alert.alert(
+                              'Confirmation',
+                              'Voulez-vous vraiment supprimer les charges de ce compte ?',
+                              [
+                                  {
+                                      text: 'Non',
+                                      style: 'cancel',
+                                  },
+                                  {text: 'Oui', onPress: () => {
+                                          this.deleteExpenses();
+                                      }},
+                              ],
+                              {cancelable: false},
+                          );
+                      }}
+                      title="Supprimer toute les charges"
+                      color="#cc0001"
+                  />
+              </View>
+          ) : (
+              <View />
+          )}
+
       </SafeAreaView>
     );
   }
