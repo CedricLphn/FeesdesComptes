@@ -28,29 +28,28 @@ export class ExpensesEdit extends React.Component {
 
     }
 
-    componentWillReceiveProps(nextProps, nextContext) {
-        console.log("HELLO UPDATE");
-    }
-
-
     onExpensesUpdate(event) {
         this.setState({
             expenses: event
         })
 
-        console.log("EXPENSESEDIT NEW STATE", event);
     }
 
     setQuery() {
         const {isEdit, selectAccount, expenses} = this.state;
+        console.log(expenses);
 
-        if(isEdit) {
-            sql.delete("expenses", {
-                "account_id": selectAccount
-            })
-        }
+
 
         if(expenses) {
+
+            if(isEdit) {
+                sql.delete("expenses", {
+                    "account_id": selectAccount
+                })
+            }
+
+
             expenses.map((expense, index) => {
                 sql.insert("expenses", {
                     name : expense.name,
@@ -58,15 +57,6 @@ export class ExpensesEdit extends React.Component {
                     amount : expense.amount
                 });
             });
-
-            sql.transaction(
-                tx => {
-                    tx.executeSql(`SELECT * FROM expenses
-        `, [], (_, { rows }) => {
-                        console.log(rows);
-                    })
-                }
-            );
 
             this.props.navigation.navigate("Expenses", { updated: true});
 

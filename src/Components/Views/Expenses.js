@@ -15,22 +15,15 @@ export class Expenses extends React.Component {
   state = {
     loading : true,
     updated: false,
-    accountId: []
+    account: []
   };
 
   componentWillReceiveProps() {
-    this.setState({updated: true});
+    this.setState({updated: true, loading: false});
+    this.refresh();
   }p
 
   componentDidMount() {
-    // sql.transaction(
-    //   tx => {
-    //     tx.executeSql(`DROP TABLE expenses`, [], (_, { rows }) => {
-    //       console.log(rows);
-
-    //     })
-    //   }
-    // );
 
     sql.createTable("expenses", `
     "id"	INTEGER NOT NULL PRIMARY KEY,
@@ -47,34 +40,31 @@ export class Expenses extends React.Component {
   refresh() {
     sql.transaction(
         tx => {
-          tx.executeSql(`SELECT id FROM accounts
+          tx.executeSql(`SELECT id, name FROM accounts
         `, [], (_, { rows }) => {
             let accounts = [];
 
             let row = rows._array;
 
-            console.log(row);
-
             for(let [key, account] of Object.entries(row)) {
-              console.log("id", account)
-              accounts.push(account.id);
+              accounts.push(account);
             }
 
             this.setState({
               loading: false,
-              accountId: accounts}
+              account: accounts}
             );
           })
         });
   }
 
   render() {
-    const list = this.state.accountId.map((accountId, key) => {
-      return <ExpensesAccount update={this.state.updated} key={key} accountId={accountId} onPress={() => this.navigateForEdit(accountId)} />
+    const list = this.state.account.map((accounts, key) => {
+      return <ExpensesAccount update={this.state.updated} key={key} accountId={accounts.id} accountName={accounts.name} onPress={() => this.navigateForEdit(accounts.id)} />
     });
-    const { accountId } = this.state;
+    const { account } = this.state;
 
-    if(this.state.loading == true) {
+    if(this.state.loading === true) {
       return(
           <Loading />
       )
@@ -83,7 +73,7 @@ export class Expenses extends React.Component {
           <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
                         style={GlobalStyles.App}>
             <View style={GlobalStyles.container}>
-              {(accountId.length > 0) ? (
+              {(account.length > 0) ? (
                   <View>
                     {list}
                   </View>

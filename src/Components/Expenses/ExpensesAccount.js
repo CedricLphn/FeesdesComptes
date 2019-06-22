@@ -7,7 +7,8 @@ const sql = new SQL();
 export class ExpensesAccount extends Component {
 
     static defaultProps = {
-        accountId : 0
+        accountId : 0,
+        accountName : '',
     };
 
     state = {
@@ -20,10 +21,7 @@ export class ExpensesAccount extends Component {
     }
 
     componentWillReceiveProps(nextProps, nextContext) {
-        if(this.props.update) {
-            this.query(this.props.accountId);
-
-        }
+        this.query(this.props.accountId);
     }
 
     query(accountId) {
@@ -34,11 +32,8 @@ export class ExpensesAccount extends Component {
                 LEFT JOIN accounts ON expenses.account_id = accounts.id 
                 WHERE account_id = ${accountId}
         `, [], (_, { rows }) => {
-                            console.log("NAAAAAAAAAME : ",rows._array[0].accountName)
-                            let account_Name = (rows._array[0].accountName !== undefined) ? rows._array[0].accountName : '';
-                            this.setState({data : rows._array,
-                                accountName: account_Name});
-                            console.log("== expenses data", rows._array);
+                        this.setState({data : rows._array,
+                            accountName: this.props.accountName});
                     })
                 }
             );

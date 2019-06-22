@@ -27,6 +27,8 @@ export class Input extends Component {
                                 expenses : rows._array
                             });
 
+                            this.props.onChange(this.state.expenses);
+
                         }
                     );
                 }
@@ -55,7 +57,7 @@ export class Input extends Component {
                             // onChangeText={(text) => this.setState({text})}
                             //value={key.toString()}
                             placeholder={'600.00 €'}
-                            value={this.state.expenses[key].amount}
+                            value={this.state.expenses[key].amount.toString()}
                             onChange={(e) => this.handleChange(e, key, "amount")}
                         />
                     </View>
