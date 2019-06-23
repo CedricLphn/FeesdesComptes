@@ -6,6 +6,7 @@ import SQL from '../../Helpers/API/sql';
 import Loading from '../Loading';
 import IconV from 'react-native-vector-icons/FontAwesome'
 import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
+import moment from "moment/min/moment-with-locales";
 
 const sql = new SQL();
 const euroIcon = <IconV name="euro" size={40} color="#9b1f1f" />;
@@ -93,7 +94,7 @@ export class Projects extends React.Component {
                             </CardItem>
                             <CardItem footer>
                                 <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row', marginBottom: 20, marginTop: 20}}>
-                                    <Text style={{fontSize: 20, color : '#00897B'}}>{item.date}   {dateIcon}</Text>
+                                    <Text style={{fontSize: 20, color : '#00897B'}}>{moment(item.date).locale('fr').format('LL')}   {dateIcon}</Text>
                                 </View>
                             </CardItem>
                         </Card>

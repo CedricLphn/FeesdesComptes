@@ -56,6 +56,7 @@ export class Input extends Component {
                             style={{height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'right'}}
                             // onChangeText={(text) => this.setState({text})}
                             //value={key.toString()}
+                            keyboardType={'numeric'}
                             placeholder={'600.00 €'}
                             value={this.state.expenses[key].amount.toString()}
                             onChange={(e) => this.handleChange(e, key, "amount")}
@@ -116,7 +117,7 @@ export class Input extends Component {
         if(type === "name") {
             expense[key].name = change;
         }else {
-            expense[key].amount = change;
+            expense[key].amount = change.replace(',', '.');
         }
         this.setState({expense})
 
