@@ -105,7 +105,7 @@ export class ExpensesEdit extends React.Component {
                 <Button
                   onPress={this.setQuery.bind(this)}
                   title="Confirmer les modifications"
-                  color="#cc0001"
+                  color="#00897B"
                 />
               </View>
           {(this.state.isEdit) ? (
@@ -127,7 +127,7 @@ export class ExpensesEdit extends React.Component {
                               {cancelable: false},
                           );
                       }}
-                      title="Supprimer toute les charges"
+                      title="Supprimer toutes les charges"
                       color="#cc0001"
                   />
               </View>

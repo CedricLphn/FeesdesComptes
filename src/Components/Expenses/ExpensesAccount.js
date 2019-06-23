@@ -61,6 +61,7 @@ export class ExpensesAccount extends Component {
             return(
                 <TouchableOpacity  onPress={() => this.sendId(this.props.accountId)}>
                     {(this.state.data.length > 0) ? (
+
                         <View style={styles.boxAccountExpenses}>
                             <View style={styles.boxAccountName}>
                                 <Text style={styles.accountName}>{this.state.accountName}</Text>
@@ -82,12 +83,12 @@ export class ExpensesAccount extends Component {
 
 const styles = StyleSheet.create({
     boxAccountExpenses : {
-        backgroundColor : "#E5E5E5",
+        backgroundColor : "white",
         flexDirection : "column",
         justifyContent: "center",
         marginTop: 5,
         paddingBottom: 40,
-        paddingTop : 30
+        paddingTop : 30,
     },
     accountName : {
         fontSize : 28,
