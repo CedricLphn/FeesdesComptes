@@ -88,21 +88,39 @@ export class ExpensesEdit extends React.Component {
               <View style={{marginTop: 20}}>
               <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20}}>Choisir un compte</Text>
               </View>
-              <View style={{marginTop: -40, marginBottom : -40}}>
-                  <Picker
+                {(Platform.OS === 'android')?
+                    <View style={{}}>
+                        <Picker
+                            style={{marginLeft: 30, marginRight: 30}}
+                            selectedValue={this.state.selectAccount }
+                            onValueChange={(itemValue, itemIndex) => this.pickerChange(itemIndex)}>{
 
-                      selectedValue={this.state.selectAccount }
-                      onValueChange={(itemValue, itemIndex) => this.pickerChange(itemIndex)}>{
+                            this.state.accounts.map( (v)=>{
+                                return <Picker.Item key={v.id} label={v.name} value={v.id} />
+                            })
 
-                      this.state.accounts.map( (v)=>{
-                          return <Picker.Item key={v.id} label={v.name} value={v.id} />
-                      })
+                        }
 
-                  }
+                        </Picker>
+                    </View>
+                    :
+                    <View style={{marginTop: -40, marginBottom : -40}}>
+                        <Picker
 
-                  </Picker>
-              </View>
-              <View style={{marginTop: 0, marginBottom: 0}}>
+                            selectedValue={this.state.selectAccount }
+                            onValueChange={(itemValue, itemIndex) => this.pickerChange(itemIndex)}>{
+
+                            this.state.accounts.map( (v)=>{
+                                return <Picker.Item key={v.id} label={v.name} value={v.id} />
+                            })
+
+                        }
+
+                        </Picker>
+                    </View>
+                }
+
+              <View>
               <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20}}>Nouvelle charge</Text>
               </View>
 

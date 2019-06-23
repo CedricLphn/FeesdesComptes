@@ -158,7 +158,7 @@ export class ProjectsEdit extends React.Component {
 
                       <View >
 
-                          <Card style={{borderRadius: '5px', padding : 25}}>
+                          <Card style={[GlobalStyles, {padding : 25}]}>
                               <CardItem style={{}}>
                                   <View style={{flex: 1, alignItems: 'center'}}>
                                       <TextInput
@@ -173,7 +173,7 @@ export class ProjectsEdit extends React.Component {
 
                           </Card>
 
-                          <Card style={{borderRadius: '5px', padding : 15}}>
+                          <Card style={[GlobalStyles, {padding : 15}]}>
                               <CardItem style={{}}>
                                   <View style={{flex: 1, alignItems: 'center'}}>
                                       <TextInput
@@ -189,7 +189,7 @@ export class ProjectsEdit extends React.Component {
 
                           </Card>
 
-                          <Card style={{borderRadius: '5px', padding : 40}}>
+                          <Card style={[GlobalStyles, {padding : 40}]}>
                               <CardItem style={{}}>
                                   <View style={{flex: 1, alignItems: 'center'}}>
                                       <SegmentedControlTab
@@ -201,7 +201,7 @@ export class ProjectsEdit extends React.Component {
                               </CardItem>
                           </Card>
                           {(this.state.selectedIndex == 0) ? (
-                              <Card style={{borderRadius: '5px', padding : 15}}>
+                              <Card style={[GlobalStyles, {padding : 15}]}>
                                   <CardItem style={{}}>
                                       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',flexDirection  :'row'}}>
                                       <View style={{marginRight: 10}}>
@@ -224,7 +224,7 @@ export class ProjectsEdit extends React.Component {
 
                           ) : (
 
-                              <Card style={{borderRadius: '5px', padding : 15}}>
+                              <Card style={[GlobalStyles, {padding : 15}]}>
                                   <CardItem style={{}}>
                                       <View style={{flex: 1, alignItems: 'center', justifyContent: 'center',flexDirection  :'row', marginBottom: 8}}>
                                           <DatePicker

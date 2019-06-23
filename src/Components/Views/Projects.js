@@ -82,7 +82,7 @@ export class Projects extends React.Component {
                             title: "Modifier un projet"
                         })
                     }}>
-                        <Card style={{borderRadius: '5px', padding : 10}}>
+                        <Card style={[GlobalStyles, {padding : 10}]}>
                             <CardItem header>
                                 <Text style={{fontSize: 30, width: '70%', textAlign: 'left', padding : 10, textTransform: 'uppercase', fontWeight: 'bold'}}>{item.name}</Text>
                                 <Text style={{fontSize: 28, width: '30%', textAlign: 'right'}}>{item.amount_per_month}  {moneyIcon}</Text>

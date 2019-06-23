@@ -26,6 +26,6 @@ export default StyleSheet.create({
           flex: 1
       },
     card: {
-        borderRadius: Platform.OS === 'android' ? 5.00 : '5px'
+        borderRadius: Platform.OS === 'android' ? 5.00 : 5
     }
 });
