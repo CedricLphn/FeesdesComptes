@@ -99,7 +99,7 @@ export class Accounts extends React.Component {
                 title: "Modifier un compte"
               })
             }}>
-                <Card style={{borderRadius: '5px', padding : 10}}>
+                <Card style={[GlobalStyles.card, {padding : 10}]}>
                   <CardItem header>
                     <Text style={{fontSize: 24}}>{item.name}</Text>
                   </CardItem>

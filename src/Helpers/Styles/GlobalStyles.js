@@ -24,5 +24,8 @@ export default StyleSheet.create({
       },
       container : {
           flex: 1
-      }
+      },
+    card: {
+        borderRadius: Platform.OS === 'android' ? 5.00 : '5px'
+    }
 });

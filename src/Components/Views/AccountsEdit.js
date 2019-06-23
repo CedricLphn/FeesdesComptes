@@ -128,7 +128,7 @@ export class AccountsEdit extends React.Component {
             <View >
 
 
-                <Card style={{borderRadius: '5px', padding : 25}}>
+                <Card style={[GlobalStyles, {padding : 25}]}>
                     <CardItem style={{}}>
                         <View style={{flex: 1, alignItems: 'center'}}>
                             <TextInput
@@ -141,7 +141,7 @@ export class AccountsEdit extends React.Component {
                     </CardItem>
 
                 </Card>
-                <Card style={{borderRadius: '5px', padding : 40}}>
+                <Card style={[GlobalStyles, {padding : 40}]}>
                     <CardItem style={{}}>
                         <View style={{flex: 1, alignItems: 'center'}}>
                             <SegmentedControlTab
@@ -153,7 +153,7 @@ export class AccountsEdit extends React.Component {
                     </CardItem>
 
                 </Card>
-                <Card style={{borderRadius: '5px', padding : 15}}>
+                <Card style={[GlobalStyles, {padding : 15}]}>
                     <CardItem style={{}}>
                         <View style={{flex: 1, justifyContent: 'center', flexDirection : 'row'}}>
                             <TextInput
@@ -214,9 +214,3 @@ export class AccountsEdit extends React.Component {
     );
   }
 }
-
-const styles = StyleSheet.create({
-  titles : {textTransform : 'uppercase', textAlign : 'center'},
-  inputs : {margin : 20, height: 40, borderColor: 'gray', borderBottomWidth: 1, textAlign : 'center'},
-  boxes : {height: 50, alignItems: 'center', justifyContent: 'center'}
-})
