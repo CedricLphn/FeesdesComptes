@@ -16,6 +16,14 @@ const styles = StyleSheet.create({
 
 export class ExpensesEdit extends React.Component {
 
+    static navigationOptions = ({ navigation }) => {
+        const { state } = navigation;
+
+        return {
+            title: (state.params && state.params.title ? state.params.title : 'Ajouter des charges')
+        };
+    };
+
     state = {
         accounts: [],
         selectAccount: this.props.navigation.getParam("id", 1),

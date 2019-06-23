@@ -29,7 +29,7 @@ export class Expenses extends React.Component {
     "id"	INTEGER NOT NULL PRIMARY KEY,
     "account_id" INTEGER NOT NULL,
     "name" TEXT NOT NULL,
-    "amount"	INTEGER DEFAULT 0,
+    "amount"	REAL DEFAULT 0,
     FOREIGN KEY("account_id") REFERENCES "accounts"("id") ON DELETE CASCADE`
     )
 
@@ -77,14 +77,16 @@ export class Expenses extends React.Component {
                   <View>
                     {list}
                   </View>
-              ) : (
+                ) : (
                   <View style={styles.centering}>
                     <Image source={require('../../../assets/empty.png')} />
                     <Text>Veuillez ajouter un compte</Text>
                   </View>
               )}
+              {(account.length > 0) ? (
+                <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate('Settings')} />
+                  ) : ( <View/> )}
 
-              <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate('Settings')} />
             </View>
           </SafeAreaView>
       );

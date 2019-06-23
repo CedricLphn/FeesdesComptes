@@ -101,8 +101,8 @@ export class Projects extends React.Component {
                     } />
       ) : (
           <View style={styles.centering}>
-              <Image source={require('../../../assets/empty.png')} />
-              <Text>Il n'y a aucun projet, pourquoi pas en ajouter un ?</Text>
+              <Image source={require('../../../assets/project.png')} />
+              <Text>Vous n'avez pas de projet</Text>
           </View>
       )}
 

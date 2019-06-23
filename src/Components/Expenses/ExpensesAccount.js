@@ -43,7 +43,9 @@ export class ExpensesAccount extends Component {
 
     render() {
         if(this.props.accountId != 0) {
+            let total = 0;
             const data = this.state.data.map((expense, key) => {
+                total += expense.amount;
                 return (
 
                     <View key={key} style={{flexDirection : "row"}} >
@@ -67,6 +69,14 @@ export class ExpensesAccount extends Component {
                                 <Text style={styles.accountName}>{this.state.accountName}</Text>
                             </View>
                             {data}
+                            <View style={{flexDirection : "row"}} >
+                                <View style={styles.boxExpense}>
+                                    <Text style={styles.expenseName}>Total des charges</Text>
+                                </View>
+                                <View style={styles.boxExpense}>
+                                    <Text style={styles.expenseAmount}>{total} €</Text>
+                                </View>
+                            </View>
                         </View>
                     ) : (<View/>) }
                 </TouchableOpacity>

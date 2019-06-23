@@ -1,12 +1,9 @@
 import React from 'react';
-import { Image, Platform, SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, ActivityIndicator } from 'react-native';
+import { Image, Platform, SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity} from 'react-native';
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
-import AccountsEdit from '../Views/AccountsEdit';
-import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
+import { Card, CardItem, Body } from 'native-base';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
-import AccountPlaceHolder from '../../Helpers/PlaceHolders/Accounts.js'
 import IconV from 'react-native-vector-icons/FontAwesome'
 const euroIcon = <IconV name="euro" size={20} color="#ff9800" />;
 
@@ -43,14 +40,33 @@ export class Accounts extends React.Component {
     console.log(sql.createTable("accounts", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
     sql.transaction(
       tx => {
-        tx.executeSql('select * from accounts', [], (_, { rows }) => {
+        tx.executeSql('select accounts.*, expenses.account_id, SUM(expenses.amount) AS charges from accounts LEFT JOIN expenses ON accounts.id = expenses.account_id', [], (_, { rows }) => {
+
+          let isNull = false;
+          rows._array.map((expense, key) => {
+            console.log("expense id ", expense.id);
+            if(expense.id == null) {
+              isNull = true;
+            }
+          })
           console.log("trransaction : ", rows._array);
 
-          this.setState({ 
-            data : rows._array,
-            length : rows.length,
-            loading : false,
-          })
+          if(!isNull) {
+            this.setState({
+              data : rows._array,
+              length : rows.length,
+              loading : false
+
+            })
+          }else {
+            this.setState({
+              length : 0,
+              loading : false,
+            })
+          }
+
+
+
 
         }
         );
@@ -106,9 +122,17 @@ export class Accounts extends React.Component {
                   <CardItem style={{width: '50%', alignSelf: 'center'}}>
                     {this.switchColor(item.type)}
                   </CardItem>
+                  <CardItem>
+                    <View>
+                      <Text>Votre solde : {item.amount} {euroIcon}</Text>
+                    </View>
+                    <View>
+                      <Text>- les charges : {(item.charges !== null) ? item.charges : '0'}  {euroIcon}</Text>
+                    </View>
+                  </CardItem>
                   <CardItem footer>
                     <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
-                      <Text style={{fontSize: 20, color : '#ff9800'}}>{item.amount} {euroIcon}</Text>
+                      <Text style={{fontSize: 20, color : '#ff9800'}}>{item.amount - item.charges} {euroIcon}</Text>
                     </View>
                   </CardItem>
                 </Card>
@@ -133,7 +157,7 @@ export class Accounts extends React.Component {
 const styles = StyleSheet.create({
   BoxAccount : {
     flexDirection : "column",
-    height: 200,
+    height: 300,
     marginLeft: 4,
     marginRight: 4,
 
