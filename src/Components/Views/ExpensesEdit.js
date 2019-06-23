@@ -1,11 +1,18 @@
 import React from 'react';
-import {Platform, SafeAreaView, StyleSheet, Text, View, Picker, TextInput, Button, FlatList, Alert} from 'react-native';
+import {Platform, SafeAreaView, StyleSheet, Text, View, Picker, TextInput, Button, FlatList, Alert, ScrollView} from 'react-native';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import SQL from "../../Helpers/API/sql";
 import {Input} from "../ExpensesEdit/Input";
 
 const sql = new SQL();
+
+const styles = StyleSheet.create({
+    contentContainer: {
+        paddingVertical: 20
+    }
+});
+
 
 export class ExpensesEdit extends React.Component {
 
@@ -78,10 +85,10 @@ export class ExpensesEdit extends React.Component {
       style={GlobalStyles.App}>
           <View style={GlobalStyles.container}>
             <View style={{}}>
-              <View style={{marginTop: 50}}>
+              <View style={{marginTop: 20}}>
               <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20}}>Choisir un compte</Text>
               </View>
-              <View>
+              <View style={{marginTop: -40, marginBottom : -40}}>
                   <Picker
 
                       selectedValue={this.state.selectAccount }
@@ -95,12 +102,18 @@ export class ExpensesEdit extends React.Component {
 
                   </Picker>
               </View>
-              <View style={{marginTop: 90, marginBottom: 30}}>
+              <View style={{marginTop: 0, marginBottom: 0}}>
               <Text style={{fontWeight : 'bold', textAlign : 'center', fontSize : 20}}>Nouvelle charge</Text>
               </View>
-                <Input data={this.state.isEdit} onChange={(e) => this.onExpensesUpdate(e)} />
+
             </View>
+              <ScrollView contentContainerStyle={styles.contentContainer}>
+                  <Input data={this.state.isEdit} onChange={(e) => this.onExpensesUpdate(e)} />
+
+              </ScrollView>
           </View>
+
+
           <View style={{}}>
                 <Button
                   onPress={this.setQuery.bind(this)}
