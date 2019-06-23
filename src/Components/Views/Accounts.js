@@ -40,7 +40,7 @@ export class Accounts extends React.Component {
     console.log(sql.createTable("accounts", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
     sql.transaction(
       tx => {
-        tx.executeSql('select accounts.*, expenses.account_id, SUM(expenses.amount) AS charges from accounts LEFT JOIN expenses ON accounts.id = expenses.account_id', [], (_, { rows }) => {
+        tx.executeSql('select accounts.*, expenses.account_id, SUM(expenses.amount) AS charges from accounts LEFT JOIN expenses ON accounts.id = expenses.account_id GROUP BY accounts.id', [], (_, { rows }) => {
 
           let isNull = false;
           rows._array.map((expense, key) => {
