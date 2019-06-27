@@ -122,17 +122,17 @@ export class Accounts extends React.Component {
                   <CardItem style={{width: '50%', alignSelf: 'center'}}>
                     {this.switchColor(item.type)}
                   </CardItem>
-                  <CardItem>
+                  <CardItem style={{justifyContent: 'space-around', alignItems: 'center'}}>
                     <View>
-                      <Text>Votre solde : {item.amount} {euroIcon}</Text>
+                      <Text>Solde : {item.amount}</Text>
                     </View>
                     <View>
-                      <Text>- les charges : {(item.charges !== null) ? item.charges : '0'}  {euroIcon}</Text>
+                      <Text>Charges : {(item.charges !== null) ? item.charges : '0'} </Text>
                     </View>
                   </CardItem>
                   <CardItem footer>
                     <View style={{flex: 1, justifyContent: 'flex-end', flexDirection: 'row'}}>
-                      <Text style={{fontSize: 20, color : '#ff9800'}}>{item.amount - item.charges} {euroIcon}</Text>
+                      <Text style={{fontSize: 20, color : '#ff9800'}}> Reste : {item.amount - item.charges} {euroIcon}</Text>
                     </View>
                   </CardItem>
                 </Card>

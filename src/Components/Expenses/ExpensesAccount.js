@@ -69,9 +69,9 @@ export class ExpensesAccount extends Component {
                                 <Text style={styles.accountName}>{this.state.accountName}</Text>
                             </View>
                             {data}
-                            <View style={{flexDirection : "row"}} >
+                            <View style={{flexDirection : "row", marginTop: 20}} >
                                 <View style={styles.boxExpense}>
-                                    <Text style={styles.expenseName}>Total des charges</Text>
+                                    <Text style={styles.expenseName}>Total </Text>
                                 </View>
                                 <View style={styles.boxExpense}>
                                     <Text style={styles.expenseAmount}>{total} €</Text>
@@ -112,10 +112,12 @@ const styles = StyleSheet.create({
     },
     expenseName : {
         textTransform : "uppercase",
+        fontWeight: 'bold',
+        color : '#00897B'
     },
     expenseAmount : {
         fontStyle : "italic",
-        textAlign : "right"
+        textAlign : "right",
     },
     boxAccountName : {marginBottom : 30, borderColor : "white", borderWidth : 1}
 })

@@ -51,6 +51,7 @@ export class Expenses extends React.Component {
             }
 
             this.setState({
+              updated: true,
               loading: false,
               account: accounts}
             );
@@ -59,9 +60,7 @@ export class Expenses extends React.Component {
   }
 
   render() {
-    const list = this.state.account.map((accounts, key) => {
-      return <ExpensesAccount update={this.state.updated} key={key} accountId={accounts.id} accountName={accounts.name} onPress={() => this.navigateForEdit(accounts.id)} />
-    });
+
     const { account } = this.state;
 
     if(this.state.loading === true) {
@@ -72,10 +71,14 @@ export class Expenses extends React.Component {
       return (
           <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
                         style={GlobalStyles.App}>
-            <View style={GlobalStyles.container}>
+            <View style={[GlobalStyles.container, {padding : 0}]}>
               {(account.length > 0) ? (
                   <View>
-                    {list}
+                    {
+                      this.state.account.map((accounts, key) => {
+                        return <ExpensesAccount update={this.state.updated} key={key} accountId={accounts.id} accountName={accounts.name} onPress={() => this.navigateForEdit(accounts.id)} />
+                      })
+                    }
                   </View>
                 ) : (
                   <View style={styles.centering}>
