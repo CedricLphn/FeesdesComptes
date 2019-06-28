@@ -1,18 +1,57 @@
-import { Constants, SQLite } from 'expo';
+import { SQLite } from 'expo';
 
 const db = SQLite.openDatabase("database.db");
 
 export default class SQL {
+    /**
+     * @param {String} name
+     * @param {String} query 
+     */
     createTable(name, query) {
         return db.transaction(tx => {
+            console.log(`CREATE TABLE IF NOT EXISTS ${name} (${query})`);
             tx.executeSql(`CREATE TABLE IF NOT EXISTS ${name} (${query})`);
           });
     }
 
+    /**
+     *
+     * @param {String} query
+     */
     query(query) {
         return db.transaction(tx => {
             tx.executeSql(query);
           });    
+    }
+
+    /**
+     * @param {Function} transaction
+     */
+    transaction(transaction) {
+        return db.transaction(transaction);
+    }
+
+    async select(tableName, filter) {
+        if(filter === undefined || filter === null) {
+            filter = "*";
+        }else if(Array.isArray(filter)) {
+            filter = filter.join(',');
+        }
+
+        return new Promise(await function (resolve, reject)  {
+            db.transaction(
+                tx => {
+                  tx.executeSql(`select ${filter} from ${tableName}`, [], (_, { rows }) => {
+                      //console.log("sql class: " + JSON.stringify(rows));
+                      return resolve(JSON.stringify(rows));
+                  }
+                  );
+                }
+              );
+
+              return reject();
+        })
+
     }
 
     insert(tableName, column) {
@@ -39,7 +78,7 @@ export default class SQL {
             }
         }
 
-        console.log(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`)
+        //console.log(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`)
 
         return this.query(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`);
     }
@@ -49,8 +88,8 @@ export default class SQL {
         var sizeFilter = 0;
         let count = 0;
         let countFilter = 0;
-        let filters;
-        let setters;
+        let filters = "";
+        let setters = "";
 
 
         for(let item in column) {
@@ -60,10 +99,10 @@ export default class SQL {
         for(let item in column) {
             count++;
             if(count === size) {
-                setters += item+'='+column[item];
+                setters += item+"='"+column[item]+"'";
                 
             }else {
-                setters += item+'='+column[item]+','
+                setters += item+"='"+column[item]+"',"
             }
         }
 
@@ -75,12 +114,12 @@ export default class SQL {
         for(let item in filter) {
             countFilter++;
             if(countFilter === sizeFilter) {
-                filters += item+'='+filter[item];
+                filters += item+"='"+filter[item]+"'";
             }else {
-                filters += item+'='+filter[item] + ' AND ';
+                filters += item+"='"+filter[item] + "' AND ";
             }
         }
-        console.log(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`)
+        //console.log(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`)
 
         return this.query(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`); 
     }
@@ -88,7 +127,7 @@ export default class SQL {
 
         var sizeFilter = 0;
         let countFilter = 0;
-        let filters;
+        let filters = "";
 
         for(let item in filter)
         {
@@ -103,9 +142,9 @@ export default class SQL {
                 filters += item+'='+filter[item] + ' AND ';
             }
         }
-        console.log(`DELETE ${tableName} WHERE ${filters}`);
+        //console.log(`DELETE FROM ${tableName} WHERE ${filters}`);
 
-        return this.query(`DELETE ${tableName} WHERE ${filters}`); 
+        return this.query(`DELETE FROM ${tableName} WHERE ${filters}`); 
 
     }
 }

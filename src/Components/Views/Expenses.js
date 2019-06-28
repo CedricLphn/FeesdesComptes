@@ -1,86 +1,113 @@
 import React from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
+import {Platform, SafeAreaView, StyleSheet, Text, View, FlatList, Image, TouchableOpacity} from 'react-native';
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
 
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
-import ExpensesAccountNamePlaceHolder from '../../Helpers/PlaceHolders/Expenses'
-import ExpensesAccount1PlaceHolder from '../../Helpers/PlaceHolders/Expenses.Account1'
+
+import SQL from '../../Helpers/API/sql'
+import {ExpensesAccount} from "../Expenses/ExpensesAccount";
+import Loading from "../Loading";
+
+import {NavigationEvents} from 'react-navigation'
+
+const sql = new SQL();
 
 export class Expenses extends React.Component {
-  render() {
-    return (
-      <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
-      style={GlobalStyles.App}>
-          <View style={GlobalStyles.TopTitle}>
-              <Text  style={GlobalStyles.TopTextTitle}>Mes charges</Text>
-          </View>
-          <View style={GlobalStyles.container}>
-            <FlatList data={ExpensesAccountNamePlaceHolder}
-            renderItem={({item}) => 
-            <View style={styles.boxAccountExpenses}> 
-              <View>
-                <View style={styles.boxAccountName}>
-                  <Text style={styles.accountName}>{item.accountName}</Text>
-                </View>
-                <FlatList data={ExpensesAccount1PlaceHolder}
-                renderItem={({item}) =>
-                <View style={{flexDirection : "row"}}>
-                  <View style={styles.boxExpense}>
-                    <Text style={styles.expenseName}>{item.name}</Text>
-                  </View>
-                  <View style={styles.boxExpense}>
-                    <Text style={styles.expenseAmount}>{item.amount} €</Text>
-                  </View>
-                </View>
-                }/>  
-              </View>
-            </View>
-            } />
 
-        <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
-            <Icon name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {}}>
-            <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#1abc9c' title="All Tasks" onPress={() => {}}>
-            <Icon name="md-done-all" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
-          </View>
-        {/* Rest of the app comes ABOVE the action button component !*/}
-      </SafeAreaView>
-    );
+  state = {
+    loading : true,
+    updated: false,
+    account: []
+  };
+
+  componentWillReceiveProps() {
+    this.setState({updated: true, loading: false});
+    this.refresh();
+  }p
+
+  componentDidMount() {
+
+
+    this.refresh();
+
+  }
+
+  refresh() {
+    sql.transaction(
+        tx => {
+          tx.executeSql(`SELECT id, name FROM accounts
+        `, [], (_, { rows }) => {
+            let accounts = [];
+
+            let row = rows._array;
+
+            for(let [key, account] of Object.entries(row)) {
+              accounts.push(account);
+            }
+
+            this.setState({
+              updated: true,
+              loading: false,
+              account: accounts}
+            );
+          })
+        });
+  }
+
+  render() {
+
+    const { account } = this.state;
+
+    if(this.state.loading === true) {
+      return(
+          <Loading />
+      )
+    }else {
+      return (
+          <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
+                        style={GlobalStyles.App}>
+              <NavigationEvents
+                  onWillFocus={() => {
+                      this.refresh();
+                  }}
+              />
+            <View style={[GlobalStyles.container, {padding : 0}]}>
+              {(account.length > 0) ? (
+                  <View>
+                    {
+                      this.state.account.map((accounts, key) => {
+                        return <ExpensesAccount update={this.state.updated} key={key} accountId={accounts.id} accountName={accounts.name} onPress={() => this.navigateForEdit(accounts.id)} />
+                      })
+                    }
+                  </View>
+                ) : (
+                  <View style={styles.centering}>
+                    <Image source={require('../../../assets/empty.png')} />
+                    <Text>Veuillez ajouter un compte</Text>
+                  </View>
+              )}
+              {(account.length > 0) ? (
+                <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate('Settings')} />
+                  ) : ( <View/> )}
+
+            </View>
+          </SafeAreaView>
+      );
+    }
+  }
+
+  navigateForEdit(accountId) {
+    this.props.navigation.navigate("Settings", {
+      id : accountId,
+      title: "Modifier des charges"
+    })
   }
 }
 
 const styles = StyleSheet.create({
-  boxAccountExpenses : {
-    backgroundColor : "#E5E5E5",
-    flexDirection : "column",
+  centering: {
+    flex: 1,
     justifyContent: "center",
-    marginTop: 5,
-    paddingBottom: 40,
-    paddingTop : 30
-  },
-  accountName : {
-    fontSize : 28,
-    fontWeight : "bold",
-    textAlign : "center",
-    marginLeft : 60,
-    marginRight : 60,
-  },
-  boxExpense : {
-    flex : 1, marginLeft : 60, marginRight : 60
-  },
-  expenseName : {
-    textTransform : "uppercase",
-  },
-  expenseAmount : {
-    fontStyle : "italic",
-    textAlign : "right"
-  },
-  boxAccountName : {marginBottom : 30, borderColor : "white", borderWidth : 1}
+    alignItems: "center"
+  }
 })

@@ -1,70 +1,139 @@
 import React from 'react';
-import { Platform, SafeAreaView, StyleSheet, Text, View, FlatList } from 'react-native';
+import {Platform, SafeAreaView, StyleSheet, Text, View, FlatList, TouchableOpacity, Image} from 'react-native';
 import ActionButton from 'react-native-action-button';
-import Icon from 'react-native-vector-icons/Ionicons';
-
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
-import ProjectsPlaceHolder from '../../Helpers/PlaceHolders/Projects.js'
+import SQL from '../../Helpers/API/sql';
+import Loading from '../Loading';
+import IconV from 'react-native-vector-icons/FontAwesome'
+import { Container, Header, Content, Card, CardItem, Body } from 'native-base';
+import moment from "moment/min/moment-with-locales";
+
+const sql = new SQL();
+const euroIcon = <IconV name="euro" size={40} color="#9b1f1f" />;
+const dateIcon = <IconV name="calendar" size={30} color="#00897B" />;
+const moneyIcon = <IconV name="money" size={30} color="#ad7d30" />;
+import {NavigationEvents} from 'react-navigation'
+
 
 
 export class Projects extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            data : [],
+            loading : true
+        }
+    }
+    componentDidMount() {
+        this.refresh();
+    }
+
+    componentWillReceiveProps() {
+        this.setState({
+            ...this.state,
+            loading: true
+        })
+        this.refresh();
+    }
+
+    refresh() {
+
+        // IF CHANGEMENT ON TABLE FIELDS UNCOMMENT ONE TIME BELOW
+
+        // sql.transaction(
+        //     tx => {
+        //         tx.executeSql('DROP TABLE projects', [], (_, {rows}) => {
+        //             console.log(rows);
+        //
+        //         })
+        //     }
+        // )
+
+        // TABLE FIELDS BELOW
+
+
+        sql.transaction(
+            tx => {
+                tx.executeSql('select * from projects', [], (_, { rows }) => {
+                        this.setState({
+                            data : rows._array,
+                            length : rows.length,
+                            loading : false,
+                        })
+
+                    }
+                );
+            }
+        );
+
+
+    }
+
   render() {
     return (
-      <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
+        <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
-          <View style={GlobalStyles.TopTitle}>
-              <Text h1 style={GlobalStyles.TopTextTitle}>Mes projets</Text>
-          </View>
+            <NavigationEvents
+                onWillFocus={() => {
+                    this.refresh();
+                }}
+            />
           <View style={GlobalStyles.container}>
-            <FlatList data={ProjectsPlaceHolder}
-            renderItem={({item}) => 
-            <View style={styles.boxAccountExpenses}> 
-              <View>
-                <View style={styles.boxAccountName}>
-                  <Text style={styles.accountName}>{item.name}</Text>
-                </View>
+          <Loading loading={this.state.loading} />
+      {(this.state.length > 0) && (this.state.loading == false) ? (
+          <FlatList data={this.state.data}
+                    keyExtractor = {(item) => item.id.toString()}
+                    renderItem={({item}) => <TouchableOpacity style={styles.Box}  onPress={() => {
+                        this.props.navigation.navigate("Settings", {
+                            id : item.id,
+                            title: "Modifier un projet"
+                        })
+                    }}>
+                        <Card style={[GlobalStyles, {padding : 10}]}>
+                            <CardItem header>
+                                <Text style={{fontSize: 30, width: '70%', textAlign: 'left', padding : 10, textTransform: 'uppercase', fontWeight: 'bold'}}>{item.name}</Text>
+                                <Text style={{fontSize: 28, width: '30%', textAlign: 'right'}}>{item.amount_per_month}  {moneyIcon}</Text>
+                            </CardItem>
+                            <CardItem style={{}}>
+                                <Text style={{fontSize: 40, width: '100%', textAlign: 'center' , color:"#9b1f1f"}}>{item.amount} {euroIcon}</Text>
 
-                    <View style={{flexDirection : "row", justifyContent : "space-around"}}>
-                        <View>
-                            <View style={{flex : 1}}>
-                                <Text h2 style={styles.expenseName}>Montant par mois : </Text>
-                            </View >
-                            <View>
-                                <Text style={styles.expenseAmount}>{item.amount_per_month }</Text>
-                            </View>
-                        </View>
-                        <View>
-                            <View style={{flex : 1}}>
-                                <Text h2 style={styles.expenseName}>Date estimée : </Text>
-                            </View>
-                            <View>
-                                <Text style={styles.expenseAmount}>{item.estimated_date}</Text>
-                            </View>
-                        </View>
-                    </View>
-              </View>
-            </View>
-            } />
-
-        <ActionButton buttonColor="rgba(231,76,60,1)">
-          <ActionButton.Item buttonColor='#9b59b6' title="New Task" onPress={() => console.log("notes tapped!")}>
-            <Icon name="md-create" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#3498db' title="Notifications" onPress={() => {}}>
-            <Icon name="md-notifications-off" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-          <ActionButton.Item buttonColor='#1abc9c' title="All Tasks" onPress={() => {}}>
-            <Icon name="md-done-all" style={styles.actionButtonIcon} />
-          </ActionButton.Item>
-        </ActionButton>
+                            </CardItem>
+                            <CardItem footer>
+                                <View style={{flex: 1, justifyContent: 'center', flexDirection: 'row', marginBottom: 20, marginTop: 20}}>
+                                    <Text style={{fontSize: 20, color : '#00897B'}}>{moment(item.date).locale('fr').format('LL')}   {dateIcon}</Text>
+                                </View>
+                            </CardItem>
+                        </Card>
+                    </TouchableOpacity>
+                    } />
+      ) : (
+          <View style={styles.centering}>
+              <Image source={require('../../../assets/project.png')} />
+              <Text>Vous n'avez pas de projet</Text>
           </View>
-        {/* Rest of the app comes ABOVE the action button component !*/}
-      </SafeAreaView>
+      )}
+
+      <ActionButton buttonColor="rgba(231,76,60,1)" onPress={() => this.props.navigation.navigate("Settings")} />
+      </View>
+      {/* Rest of the app comes ABOVE the action button component !*/}
+  </SafeAreaView>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  Box : {
+      flexDirection : "column",
+      height: 270,
+      marginLeft: 4,
+      marginRight: 4,
+
+  },
+  centering: {
+  flex: 1,
+  justifyContent: "center",
+  alignItems: "center"
+  },
   boxAccountExpenses : {
     backgroundColor : "#E5E5E5",
     flexDirection : "column",
@@ -83,5 +152,6 @@ const styles = StyleSheet.create({
   boxExpense : {
     flex : 1, marginLeft : 60, marginRight : 60
   },
-  boxAccountName : {marginBottom : 30, borderColor : "white", borderWidth : 1}
+  boxAccountName : {marginBottom : 30, borderColor : "white", borderWidth : 1},
+    miniBoxes : { flex: 1, flexDirection: 'row', justifyContent : 'space-between' }
 })

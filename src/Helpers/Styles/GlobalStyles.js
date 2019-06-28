@@ -3,7 +3,7 @@ import { StyleSheet, Platform } from "react-native";
 export default StyleSheet.create({
     App: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: '#e5e5e5',
         paddingTop: Platform.OS === 'android' ? 25 : 0
       },
       actionButtonIcon: {
@@ -19,9 +19,13 @@ export default StyleSheet.create({
       },
       TopTextTitle : {
           color: "white",
-          fontSize: 20
+          fontSize: 20,
+          textTransform : 'uppercase'
       },
       container : {
           flex: 1
-      }
+      },
+    card: {
+        borderRadius: Platform.OS === 'android' ? 5.00 : 5
+    }
 });
