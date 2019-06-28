@@ -95,7 +95,6 @@ export class Input extends Component {
                 }]
 
         })
-        console.log("jenvoie ca ", this.state.expenses);
 
         this.props.onChange(this.state.expenses);
 

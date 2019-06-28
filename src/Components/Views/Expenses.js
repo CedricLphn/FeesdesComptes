@@ -8,6 +8,8 @@ import SQL from '../../Helpers/API/sql'
 import {ExpensesAccount} from "../Expenses/ExpensesAccount";
 import Loading from "../Loading";
 
+import {NavigationEvents} from 'react-navigation'
+
 const sql = new SQL();
 
 export class Expenses extends React.Component {
@@ -25,13 +27,6 @@ export class Expenses extends React.Component {
 
   componentDidMount() {
 
-    sql.createTable("expenses", `
-    "id"	INTEGER NOT NULL PRIMARY KEY,
-    "account_id" INTEGER NOT NULL,
-    "name" TEXT NOT NULL,
-    "amount"	REAL DEFAULT 0,
-    FOREIGN KEY("account_id") REFERENCES "accounts"("id") ON DELETE CASCADE`
-    )
 
     this.refresh();
 
@@ -71,6 +66,11 @@ export class Expenses extends React.Component {
       return (
           <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
                         style={GlobalStyles.App}>
+              <NavigationEvents
+                  onWillFocus={() => {
+                      this.refresh();
+                  }}
+              />
             <View style={[GlobalStyles.container, {padding : 0}]}>
               {(account.length > 0) ? (
                   <View>

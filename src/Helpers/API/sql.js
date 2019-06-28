@@ -38,13 +38,11 @@ export default class SQL {
             filter = filter.join(',');
         }
 
-        console.log(`select ${filter} from ${tableName}`);
-
         return new Promise(await function (resolve, reject)  {
             db.transaction(
                 tx => {
                   tx.executeSql(`select ${filter} from ${tableName}`, [], (_, { rows }) => {
-                      console.log("sql class: " + JSON.stringify(rows));
+                      //console.log("sql class: " + JSON.stringify(rows));
                       return resolve(JSON.stringify(rows));
                   }
                   );
@@ -80,7 +78,7 @@ export default class SQL {
             }
         }
 
-        console.log(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`)
+        //console.log(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`)
 
         return this.query(`INSERT INTO ${tableName}(${columnName}) VALUES(${data})`);
     }
@@ -121,7 +119,7 @@ export default class SQL {
                 filters += item+"='"+filter[item] + "' AND ";
             }
         }
-        console.log(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`)
+        //console.log(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`)
 
         return this.query(`UPDATE ${tableName} SET ${setters} WHERE ${filters}`); 
     }
@@ -144,7 +142,7 @@ export default class SQL {
                 filters += item+'='+filter[item] + ' AND ';
             }
         }
-        console.log(`DELETE FROM ${tableName} WHERE ${filters}`);
+        //console.log(`DELETE FROM ${tableName} WHERE ${filters}`);
 
         return this.query(`DELETE FROM ${tableName} WHERE ${filters}`); 
 

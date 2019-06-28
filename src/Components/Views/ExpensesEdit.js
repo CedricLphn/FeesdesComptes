@@ -52,7 +52,6 @@ export class ExpensesEdit extends React.Component {
 
     setQuery() {
         const {isEdit, selectAccount, expenses} = this.state;
-        console.log(expenses);
 
 
 
@@ -201,7 +200,6 @@ export class ExpensesEdit extends React.Component {
                             accounts : rows._array
                         })
 
-                        console.log(rows._array);
 
                     })
                 }
@@ -214,7 +212,6 @@ export class ExpensesEdit extends React.Component {
                             accounts : rows._array
                         })
 
-                        console.log(rows._array);
 
                     })
                 }

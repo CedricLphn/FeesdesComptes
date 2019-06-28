@@ -12,6 +12,9 @@ const sql = new SQL();
 const euroIcon = <IconV name="euro" size={40} color="#9b1f1f" />;
 const dateIcon = <IconV name="calendar" size={30} color="#00897B" />;
 const moneyIcon = <IconV name="money" size={30} color="#ad7d30" />;
+import {NavigationEvents} from 'react-navigation'
+
+
 
 export class Projects extends React.Component {
     constructor(props) {
@@ -47,13 +50,11 @@ export class Projects extends React.Component {
         // )
 
         // TABLE FIELDS BELOW
-        sql.createTable("projects", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0, date varchar, amount_per_month integer, r_date varchar, r_amount integer")
 
 
         sql.transaction(
             tx => {
                 tx.executeSql('select * from projects', [], (_, { rows }) => {
-                        console.log(rows._array);
                         this.setState({
                             data : rows._array,
                             length : rows.length,
@@ -72,6 +73,11 @@ export class Projects extends React.Component {
     return (
         <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
+            <NavigationEvents
+                onWillFocus={() => {
+                    this.refresh();
+                }}
+            />
           <View style={GlobalStyles.container}>
           <Loading loading={this.state.loading} />
       {(this.state.length > 0) && (this.state.loading == false) ? (

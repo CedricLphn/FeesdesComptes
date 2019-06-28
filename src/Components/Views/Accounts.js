@@ -6,6 +6,7 @@ import { Card, CardItem, Body } from 'native-base';
 import GlobalStyles from '../../Helpers/Styles/GlobalStyles';
 import IconV from 'react-native-vector-icons/FontAwesome'
 const euroIcon = <IconV name="euro" size={20} color="#ff9800" />;
+import {NavigationEvents} from 'react-navigation'
 
 import SQL from '../../Helpers/API/sql';
 import Loading from '../Loading';
@@ -23,7 +24,13 @@ export class Accounts extends React.Component {
     }
   }
   componentDidMount() {
-    this.refresh();
+      this.refresh()
+/*      // sql.transaction(
+      //     tx => {
+      //         tx.executeSql('DROP TABLE accounts; DROP TABLE expenses; DROP TABLE projects', [], (_, {rows}) => {
+      //             console.log("DROP TABLE accounts; DROP TABLE expenses; DROP TABLE projects");
+      //         })
+      //     })*/
   }
 
   componentWillReceiveProps() {
@@ -32,24 +39,22 @@ export class Accounts extends React.Component {
       loading: true
     })
     this.refresh();
+
   }
 
   refresh() {
 
 
-    console.log(sql.createTable("accounts", "id integer not null primary key, name varchar not null, type integer default 0, amount integer default 0"));
     sql.transaction(
       tx => {
         tx.executeSql('select accounts.*, expenses.account_id, SUM(expenses.amount) AS charges from accounts LEFT JOIN expenses ON accounts.id = expenses.account_id GROUP BY accounts.id', [], (_, { rows }) => {
 
           let isNull = false;
           rows._array.map((expense, key) => {
-            console.log("expense id ", expense.id);
             if(expense.id == null) {
               isNull = true;
             }
           })
-          console.log("trransaction : ", rows._array);
 
           if(!isNull) {
             this.setState({
@@ -75,7 +80,6 @@ export class Accounts extends React.Component {
   }
 
   switchColor(type) {
-    var color = '';
     if(type == '0'){
       return(
           <Body style={{flex: 1, justifyContent: 'center', flexDirection: 'row', borderWidth: 1, borderRadius: 5, backgroundColor: '#2196f3', borderColor: 'white'}}>
@@ -104,7 +108,13 @@ export class Accounts extends React.Component {
     return (
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
       style={GlobalStyles.App}>
+
           <View style={GlobalStyles.container}>
+              <NavigationEvents
+                  onWillFocus={() => {
+                      this.refresh();
+                  }}
+              />
             <Loading loading={this.state.loading} />
             {(this.state.length > 0) && (this.state.loading == false) ? ( 
             <FlatList data={this.state.data}

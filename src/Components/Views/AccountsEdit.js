@@ -115,7 +115,6 @@ export class AccountsEdit extends React.Component {
   };
 
   render() {
-    console.log("account : ", this.state.data.id)
     var button = (this.state.data.id != 0) ? "Modifier ce compte" : "Ajouter un compte";
     return(
       <SafeAreaView forceInset={Platform.OS === 'android' && { vertical: 'never' }}
